@@ -14,9 +14,13 @@ namespace Hospital_Managment.Models
         public int DoctorId { get; set; }
         [ForeignKey("DoctorId ")]
         public Doctor Doctor { get; set; }
+        [Required(ErrorMessage = "Type is required")]
         public string Type { get; set; }
+        [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
+        [Required(ErrorMessage = "Start Date is required")]
         public DateTime StartDate { get; set; }
+        [Required(ErrorMessage = "End Date is required")]
         public DateTime EndDate { get; set; }
     }
 }
