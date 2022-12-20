@@ -24,6 +24,9 @@ namespace Hospital_Managment.Controllers
         {
               return View(await _context.Departments.ToListAsync());
 
+
+            return View();
+
              int Asd;
     }
 
