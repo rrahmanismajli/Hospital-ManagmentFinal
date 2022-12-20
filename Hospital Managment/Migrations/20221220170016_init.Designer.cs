@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_Managment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221217155228_init")]
+    [Migration("20221220170016_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace Hospital_Managment.Migrations
 
                     b.HasIndex("ReceptionistId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("Hospital_Managment.Models.Bill", b =>
@@ -144,34 +144,29 @@ namespace Hospital_Managment.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Specialty")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DoctorId");
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("Hospital_Managment.Models.DoctorAppointment", b =>
@@ -524,7 +519,7 @@ namespace Hospital_Managment.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("TestResults", (string)null);
+                    b.ToTable("TestResults");
                 });
 
             modelBuilder.Entity("Hospital_Managment.Models.Treatment", b =>
@@ -762,6 +757,7 @@ namespace Hospital_Managment.Migrations
                     b.HasOne("Hospital_Managment.Models.Patient", "Patient")
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Hospital_Managment.Models.Receptionist", "Receptionist")
@@ -801,7 +797,7 @@ namespace Hospital_Managment.Migrations
             modelBuilder.Entity("Hospital_Managment.Models.Doctor", b =>
                 {
                     b.HasOne("Hospital_Managment.Models.Department", "Department")
-                        .WithMany("Doctors")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -895,7 +891,6 @@ namespace Hospital_Managment.Migrations
                     b.HasOne("Hospital_Managment.Models.Doctor", "Doctor")
                         .WithMany("Prescription")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Hospital_Managment.Models.Patient", "Patient")
@@ -979,11 +974,6 @@ namespace Hospital_Managment.Migrations
             modelBuilder.Entity("Hospital_Managment.Models.Bill", b =>
                 {
                     b.Navigation("Payments");
-                });
-
-            modelBuilder.Entity("Hospital_Managment.Models.Department", b =>
-                {
-                    b.Navigation("Doctors");
                 });
 
             modelBuilder.Entity("Hospital_Managment.Models.Doctor", b =>

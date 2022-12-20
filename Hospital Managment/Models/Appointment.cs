@@ -8,11 +8,8 @@ namespace Hospital_Managment.Models
     {
         [Key]
         public int AppointmentId { get; set; }
-        public int PatientId { get; set; }
-        [ForeignKey("PatientId ")]
+       
         public Patient Patient { get; set; }
-        public int DoctorId { get; set; }
-        [ForeignKey("DoctorId ")]
         public Doctor Doctor { get; set; }
         public DateTime DateTime { get; set; }
         public int NurseId { get; set; }

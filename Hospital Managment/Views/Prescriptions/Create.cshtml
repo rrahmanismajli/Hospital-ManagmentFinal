@@ -1,4 +1,4 @@
-﻿@model Hospital_Managment.Models.Appointment
+﻿@model Hospital_Managment.Models.Prescription
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>Appointment</h4>
+<h4>Prescription</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,22 +21,28 @@
                 <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
-                <span asp-validation-for="DateTime" class="text-danger"></span>
+                <label asp-for="AppointmentId" class="control-label"></label>
+                <select asp-for="AppointmentId" class ="form-control" asp-items="ViewBag.AppointmentId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="NurseId" class="control-label"></label>
-                <select asp-for="NurseId" class ="form-control" asp-items="ViewBag.NurseId"></select>
+                <label asp-for="MedicineName" class="control-label"></label>
+                <input asp-for="MedicineName" class="form-control" />
+                <span asp-validation-for="MedicineName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ReceptionistId" class="control-label"></label>
-                <select asp-for="ReceptionistId" class ="form-control" asp-items="ViewBag.ReceptionistId"></select>
+                <label asp-for="Dosage" class="control-label"></label>
+                <input asp-for="Dosage" class="form-control" />
+                <span asp-validation-for="Dosage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ReasonForVisit" class="control-label"></label>
-                <input asp-for="ReasonForVisit" class="form-control" />
-                <span asp-validation-for="ReasonForVisit" class="text-danger"></span>
+                <label asp-for="Frequency" class="control-label"></label>
+                <input asp-for="Frequency" class="form-control" />
+                <span asp-validation-for="Frequency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>

@@ -53,51 +53,56 @@ namespace Hospital_Managment.Data
                 .HasOne(da => da.Appointment)
                 .WithMany(a => a.DoctorAppointments)
                 .HasForeignKey(da => da.AppointmentId);
-            modelBuilder.Entity<Doctor>(entity =>
-            {
-                entity.ToTable("Doctors");
-                entity.HasKey(e => e.DoctorId);
-                entity.Property(e => e.DoctorId).ValueGeneratedOnAdd();
-                entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.Specialty).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.PhoneNumber).HasMaxLength(20);
-                entity.Property(e => e.Email).HasMaxLength(50);
-                entity.HasMany(e => e.Appointments).WithOne(e => e.Doctor).HasForeignKey(e => e.DoctorId);
-                entity.HasMany(e => e.Treatments).WithOne(e => e.Doctor).HasForeignKey(e => e.DoctorId);
-                entity.HasMany(e => e.Hospitalizations).WithOne(e => e.Doctor).HasForeignKey(e => e.DoctorId);
+            
+             modelBuilder.Entity<Appointment>(entity =>
+             {
+                 entity.ToTable("Appointments");
+                 entity.HasKey(e => e.AppointmentId);
+                 entity.Property(e => e.AppointmentId).ValueGeneratedOnAdd();
                
-            });
-            modelBuilder.Entity<Appointment>(entity =>
-            {
-                entity.ToTable("Appointments");
-                entity.HasKey(e => e.AppointmentId);
-                entity.Property(e => e.AppointmentId).ValueGeneratedOnAdd();
-                entity.HasOne(e => e.Patient).WithMany(e => e.Appointments).HasForeignKey(e => e.PatientId).OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(e => e.Doctor).WithMany(e => e.Appointments).HasForeignKey(e => e.DoctorId);
-            });
-            modelBuilder.Entity<TestResult>(entity =>
-            {
-                entity.ToTable("TestResults");
-                entity.HasKey(e => e.Id);
-               
-                entity.HasOne(e => e.Patient).WithMany(e => e.TestResults).HasForeignKey(e => e.PatientId);
-            });
+             });
+             modelBuilder.Entity<TestResult>(entity =>
+             {
+                 entity.ToTable("TestResults");
+                 entity.HasKey(e => e.Id);
+
+                 entity.HasOne(e => e.Patient).WithMany(e => e.TestResults).HasForeignKey(e => e.PatientId);
+             });
+             modelBuilder.Entity<Prescription>(entity =>
+             {
+                 entity.ToTable("Prescriptions");
+                 entity.HasKey(e => e.Id);
+                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                ;
+                 entity.HasOne(e => e.Patient).WithMany(e => e.Prescriptions).HasForeignKey(e => e.PatientId);
+                 entity.HasOne(e => e.Doctor).WithMany(e => e.Prescription).HasForeignKey(e => e.DoctorId).OnDelete(DeleteBehavior.ClientSetNull);
+             });
+
+             modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+             {
+                 entity.ToTable("UserLogins");
+                 entity.HasKey(a => a.UserId);
+             });
+             modelBuilder.Entity<IdentityUserRole<string>>(entity =>
+             {
+                 entity.ToTable("UserRole");
+                 entity.HasKey(a => a.UserId);
+             });
+             modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+             {
+                 entity.ToTable("UserToken");
+                 entity.HasKey(a => a.UserId);
+             });
             modelBuilder.Entity<Prescription>(entity =>
             {
                 entity.ToTable("Prescriptions");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
-               ;
+                ;
                 entity.HasOne(e => e.Patient).WithMany(e => e.Prescriptions).HasForeignKey(e => e.PatientId);
-                entity.HasOne(e => e.Doctor).WithMany(e => e.Prescription).HasForeignKey(e => e.DoctorId);
+                entity.HasOne(e => e.Doctor).WithMany(e => e.Prescription).HasForeignKey(e => e.DoctorId).OnDelete(DeleteBehavior.ClientSetNull);
             });
 
-            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
-            {
-                entity.ToTable("UserLogins");
-                entity.HasKey(a => a.UserId);
-            });
             modelBuilder.Entity<IdentityUserRole<string>>(entity =>
             {
                 entity.ToTable("UserRole");
@@ -106,6 +111,11 @@ namespace Hospital_Managment.Data
             modelBuilder.Entity<IdentityUserToken<string>>(entity =>
             {
                 entity.ToTable("UserToken");
+                entity.HasKey(a => a.UserId);
+            });
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable("UserLogins");
                 entity.HasKey(a => a.UserId);
             });
         }

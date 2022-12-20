@@ -12,7 +12,7 @@ namespace Hospital_Managment.Models
         public int DoctorId { get; set; }
         [ForeignKey("DoctorId ")]
         public int AppointmentId { get; set; }
-        [ForeignKey("DoctorId ")]
+        [ForeignKey("AppointmentId ")]
         public string MedicineName { get; set; }
         public string Dosage { get; set; }
         public string Frequency { get; set; }
