@@ -23,6 +23,11 @@ namespace Hospital_Managment.Controllers
         public async Task<IActionResult> Index()
         {
               return View(await _context.Departments.ToListAsync());
+
+
+            return View();
+
+
         }
 
         // GET: Departments/Details/5
