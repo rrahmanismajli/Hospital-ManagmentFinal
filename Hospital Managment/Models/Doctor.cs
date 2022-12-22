@@ -22,4 +22,7 @@ namespace Hospital_Managment.Models
         public List<Hospitalization> Hospitalizations{ get; set; }
     }
 
+    
+
+
 }

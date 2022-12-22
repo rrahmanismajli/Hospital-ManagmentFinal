@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Hospital_Managment.ViewModels;
 
 namespace Hospital_Managment.Controllers
 {
@@ -57,11 +58,20 @@ namespace Hospital_Managment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DoctorId,FirstName,LastName,Specialty,PhoneNumber,Email,Address,DepartmentId")] Doctor doctor)
+        public async Task<IActionResult> Create([Bind("DoctorId,FirstName,LastName,Specialty,PhoneNumber,Email,Address,DepartmentId")] DoctorViewModel doctor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(doctor);
+                Doctor d = new Doctor();
+                d.DoctorId=doctor.DoctorId;
+                d.Email = doctor.Email;
+                d.Address = doctor.Address;
+                d.PhoneNumber  = doctor.PhoneNumber;
+                d.LastName = doctor.LastName;
+                d.FirstName = doctor.FirstName; 
+                d.Specialty = doctor.Specialty;
+                d.DepartmentId = doctor.DepartmentId;
+                _context.Add(d);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
