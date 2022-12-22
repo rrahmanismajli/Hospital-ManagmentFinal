@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Hospital_Managment.ViewModels;
 
 namespace Hospital_Managment.Controllers
 {
@@ -51,11 +52,14 @@ namespace Hospital_Managment.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "FirstName");
-            ViewData["NurseId"] = new SelectList(_context.Nurses, "NurseId", "NurseId");
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id");
-            ViewData["ReceptionistId"] = new SelectList(_context.Receptionists, "ReceptionistId", "ReceptionistId");
+            List<SelectListItem> doctor=_context.Doctors.Select(x =>new SelectListItem { Value =x.DoctorId.ToString(),Text=x.FirstName }).ToList();
+            ViewBag.Doctor = doctor;
+            List<SelectListItem> nurse = _context.Nurses.Select(x => new SelectListItem { Value = x.NurseId.ToString(), Text = x.FirstName }).ToList();
+            ViewBag.Nurse = nurse;
+            List<SelectListItem> receptionist = _context.Receptionists.Select(x => new SelectListItem { Value = x.ReceptionistId.ToString(), Text = x.FirstName }).ToList();
+            ViewBag.Receptionist = receptionist;
             return View();
+           
         }
 
         // POST: Appointments/Create
@@ -63,19 +67,24 @@ namespace Hospital_Managment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId,DateTime,NurseId,ReceptionistId,ReasonForVisit,Notes")] Appointment appointment)
+        public async Task<IActionResult> Create(AppointmentViewModel appointment)
         {
-            if (ModelState.IsValid)
+            Appointment insertAppointment = new Appointment
             {
-                _context.Add(appointment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "FirstName", appointment.DoctorId);
-            ViewData["NurseId"] = new SelectList(_context.Nurses, "NurseId", "NurseId", appointment.NurseId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id", appointment.PatientId);
-            ViewData["ReceptionistId"] = new SelectList(_context.Receptionists, "ReceptionistId", "ReceptionistId", appointment.ReceptionistId);
-            return View(appointment);
+                AppointmentId = appointment.AppointmentId,
+                PatientId = appointment.PatientId,
+                DoctorId = appointment.DoctorId,
+                DateTime = DateTime.Now,
+                NurseId = appointment.NurseId,
+                Bill = appointment.Bill,
+                ReceptionistId = appointment.ReceptionistId,
+                ReasonForVisit = appointment.ReasonForVisit,
+                Notes = appointment.Notes
+            };
+            _context.Add(insertAppointment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            
         }
 
         // GET: Appointments/Edit/5
