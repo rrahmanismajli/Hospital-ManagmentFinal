@@ -11,8 +11,11 @@ namespace Hospital_Managment.Models
         [ForeignKey("PatientId ")]
         public Patient Patient { get; set; }
         public int AppointmentId { get; set; }
+        [Required(ErrorMessage = "Amount is required")]
         public double Amount { get; set; }
+        [Required(ErrorMessage = "Notes is required")]
         public string Notes { get; set; }
+        [Required(ErrorMessage = "Paid is required")]
         public bool Paid { get; set; }
 
 

@@ -12,11 +12,16 @@ namespace Hospital_Managment.Models
         public int DoctorId { get; set; }
         [ForeignKey("DoctorId ")]
         public int AppointmentId { get; set; }
-        [ForeignKey("DoctorId ")]
+        [ForeignKey("AppointmentId")]
+        [Required(ErrorMessage = "Medicine Name is required")]
         public string MedicineName { get; set; }
+        [Required(ErrorMessage = "Dosage is required")]
         public string Dosage { get; set; }
+        [Required(ErrorMessage = "Frequency is required")]
         public string Frequency { get; set; }
+        [Required(ErrorMessage = "Duration is required")]
         public int Duration { get; set; }
+        [Required(ErrorMessage = "Notes is required")]
         public string Notes { get; set; }
 
         public Doctor Doctor { get; set; }
