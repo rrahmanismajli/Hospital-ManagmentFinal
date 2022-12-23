@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Hospital_Managment.ViewModels;
 
 namespace Hospital_Managment.Controllers
 {
@@ -50,10 +51,15 @@ namespace Hospital_Managment.Controllers
         // GET: Prescriptions/Create
         public IActionResult Create()
         {
-            ViewData["AppointmentId"] = new SelectList(_context.Appointments, "AppointmentId", "AppointmentId");
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "Address");
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Address");
-            return View();
+            List<SelectListItem> doctor = _context.Doctors.Select(x => new SelectListItem { Value => x.DoctorId.ToString(), Text = x.FirstName }).toList();
+            ViewBag.Doctor = doctor;
+            List<SelectListItem> patient = _context.Patients.Select(x => new SelectListItem { Value => x.PatientId.ToString(), Text = x.FirstName }).toList();
+            ViewBag.Patient = patient;
+            List<SelectListItem> appoitment = _context.Appointments.Select(x => new SelectListItem { Value => x.AppoitmentId.ToString(), Text = x.FirstName }).toList();
+            ViewBag.Appoitment= appoitment;
+            returnView();
+            
+
         }
 
         // POST: Prescriptions/Create
@@ -61,18 +67,22 @@ namespace Hospital_Managment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PatientId,DoctorId,AppointmentId,MedicineName,Dosage,Frequency,Duration,Notes")] Prescription prescription)
+        public async Task<IActionResult> Create(PrescriptionViewModelBase prescription)
         {
-            if (ModelState.IsValid)
+            Prescription insertPrescription = new Prescription
             {
-                _context.Add(prescription);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointments, "AppointmentId", "AppointmentId", prescription.AppointmentId);
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "Address", prescription.DoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Address", prescription.PatientId);
-            return View(prescription);
+                DoctorId = prescription.DoctorId,
+                PatientId = prescription.PatientId,
+                AppointmentId = prescription.AppoitmentId,
+                DateTime = DateTime.Now,
+                Notes=Prescription.Notes
+            };
+            _context.Add(insertPrescription);
+            await _context.SaveChangesAsync();
+
+
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Prescriptions/Edit/5
