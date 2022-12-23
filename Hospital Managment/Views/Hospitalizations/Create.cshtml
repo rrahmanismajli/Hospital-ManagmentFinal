@@ -1,4 +1,4 @@
-﻿@model Hospital_Managment.Models.Hospitalization
+﻿@model Hospital_Managment.ViewModels.HospitalizationViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,12 +13,25 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PatientId" class="control-label"></label>
-                <select asp-for="PatientId" class ="form-control" asp-items="ViewBag.PatientId"></select>
+                <label class="control-label">Cakto Pacientin</label>
+                <select asp-for="PatientId" class="form-selest form-control">
+              @foreach(Patient patient in Model.Patient){
+                  <option value="@patient.Id">@patient.FirstName @patient.LastName</option>
+
+              }
+            </select>
+              
             </div>
             <div class="form-group">
-                <label asp-for="DoctorId" class="control-label"></label>
-                <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
+                <label class="control-label">Cakto Doktorin</label>
+                <select asp-for="DoctorId" class="form-selest form-control">
+                    @foreach (Doctor doctor in Model.Doctor)
+                    {
+                        <option value="@doctor.DoctorId">@doctor.FirstName @doctor.LastName</option>
+
+                    }
+                </select>
+
             </div>
             <div class="form-group">
                 <label asp-for="RoomNumber" class="control-label"></label>
