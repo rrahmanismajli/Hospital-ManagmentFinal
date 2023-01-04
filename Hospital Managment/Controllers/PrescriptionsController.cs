@@ -51,13 +51,13 @@ namespace Hospital_Managment.Controllers
         // GET: Prescriptions/Create
         public IActionResult Create()
         {
-            List<SelectListItem> doctor = _context.Doctors.Select(x => new SelectListItem { Value => x.DoctorId.ToString(), Text = x.FirstName }).toList();
-            ViewBag.Doctor = doctor;
-            List<SelectListItem> patient = _context.Patients.Select(x => new SelectListItem { Value => x.PatientId.ToString(), Text = x.FirstName }).toList();
+            List<SelectListItem> doctor = _context.Doctors.Select(x => new SelectListItem { Value = x.DoctorId.ToString(), Text = x.FirstName }).ToList();
+            ViewBag.Doctor=doctor;
+            List<SelectListItem>patient=_context.Patients.Select(x=>new SelectListItem { Value=x.Id.ToString(),Text=x.FirstName}).ToList();
             ViewBag.Patient = patient;
-            List<SelectListItem> appoitment = _context.Appointments.Select(x => new SelectListItem { Value => x.AppoitmentId.ToString(), Text = x.FirstName }).toList();
-            ViewBag.Appoitment= appoitment;
-            returnView();
+            List<SelectListItem> appointment = _context.Appointments.Select(x => new SelectListItem { Value = x.AppointmentId.ToString() }).ToList();
+            ViewBag.Appointment = appointment;
+            return View();
             
 
         }
@@ -67,15 +67,20 @@ namespace Hospital_Managment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PrescriptionViewModelBase prescription)
+        public async Task<IActionResult> Create(PrescriptionViewModel prescription)
         {
             Prescription insertPrescription = new Prescription
             {
                 DoctorId = prescription.DoctorId,
                 PatientId = prescription.PatientId,
-                AppointmentId = prescription.AppoitmentId,
-                DateTime = DateTime.Now,
-                Notes=Prescription.Notes
+                AppointmentId = prescription.AppointmentId,
+                MedicineName = prescription.MedicineName,
+                Dosage= prescription.Dosage,
+                Frequency=prescription.Frequency,
+                Duration=prescription.Duration,
+                Notes=prescription.Notes,
+
+                
             };
             _context.Add(insertPrescription);
             await _context.SaveChangesAsync();

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Hospital_Managment.ViewModels;
 
 namespace Hospital_Managment.Controllers
 {
@@ -49,9 +50,13 @@ namespace Hospital_Managment.Controllers
         // GET: Bills/Create
         public IActionResult Create()
         {
-            ViewData["AppointmentId"] = new SelectList(_context.Appointments, "AppointmentId", "AppointmentId");
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id");
-            return View();
+            List<Patient> patient = this._context.Patients.ToList();
+            List<Appointment>appointment=this._context.Appointments.ToList();
+            List<Payment>payments=this._context.Payments.ToList();
+            BillViewModel model = new BillViewModel();
+            model.Patient = patient;
+            model.Appointment = appointment;
+            return View(model);
         }
 
         // POST: Bills/Create
@@ -59,17 +64,22 @@ namespace Hospital_Managment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PatientId,AppointmentId,Amount,Notes,Paid")] Bill bill)
+        public async Task<IActionResult> Create(BillViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(bill);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointments, "AppointmentId", "AppointmentId", bill.AppointmentId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id", bill.PatientId);
-            return View(bill);
+            var patient = this._context.Patients.Find(model.PatientId);
+            var appointment=this._context.Appointments.Find(model.AppointmentId);
+            var payment = this._context.Payments.Find(model.PaymenttId);          
+            var bill= new Bill();
+            bill.Patient = patient;
+            bill.Appointment = appointment;
+            bill.Amount = model.Amount;
+            bill.Notes = model.Notes;
+            bill.Paid = model.Paid;
+            this._context.Bills.Add(bill);
+            this._context.SaveChanges();
+            return View();
+
+         
         }
 
         // GET: Bills/Edit/5
