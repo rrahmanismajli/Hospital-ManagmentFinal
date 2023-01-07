@@ -55,8 +55,6 @@ namespace Hospital_Managment.Controllers
             ViewBag.Doctor=doctor;
             List<SelectListItem>patient=_context.Patients.Select(x=>new SelectListItem { Value=x.Id.ToString(),Text=x.FirstName}).ToList();
             ViewBag.Patient = patient;
-            List<SelectListItem> appointment = _context.Appointments.Select(x => new SelectListItem { Value = x.AppointmentId.ToString() }).ToList();
-            ViewBag.Appointment = appointment;
             return View();
             
 
@@ -73,7 +71,6 @@ namespace Hospital_Managment.Controllers
             {
                 DoctorId = prescription.DoctorId,
                 PatientId = prescription.PatientId,
-                AppointmentId = prescription.AppointmentId,
                 MedicineName = prescription.MedicineName,
                 Dosage= prescription.Dosage,
                 Frequency=prescription.Frequency,

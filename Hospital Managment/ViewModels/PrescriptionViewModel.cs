@@ -10,8 +10,7 @@ namespace Hospital_Managment.ViewModels
         public SelectListItem Doctor { get; set; }
         public int PatientId { get; set; }
         public SelectListItem Patient { get; set; }
-        public int AppointmentId { get; set; }
-        public SelectListItem Appointment { get; set; }
+    
         public string MedicineName{ get; set; }
         public string Dosage { get; set; }
 
