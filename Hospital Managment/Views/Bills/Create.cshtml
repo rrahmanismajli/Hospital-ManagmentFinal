@@ -1,9 +1,9 @@
-﻿@model Hospital_Managment.Models.Bill
-
+﻿@model Hospital_Managment.ViewModels.BillViewModel
 @{
     ViewData["Title"] = "Create";
-}
+    var Patients= (List<SelectListItem>)ViewBag.patients;
 
+}
 <h1>Create</h1>
 
 <h4>Bill</h4>
@@ -13,13 +13,11 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PatientId" class="control-label"></label>
-                <select asp-for="PatientId" class ="form-control" asp-items="ViewBag.PatientId"></select>
+                <label class="control-label">Cakto pacientin</label>
+                <select asp-for="PatientId" asp-items="@Patients">
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="AppointmentId" class="control-label"></label>
-                <select asp-for="AppointmentId" class ="form-control" asp-items="ViewBag.AppointmentId"></select>
-            </div>
+        
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
                 <input asp-for="Amount" class="form-control" />

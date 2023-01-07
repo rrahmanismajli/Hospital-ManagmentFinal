@@ -49,6 +49,7 @@ namespace Hospital_Managment.Controllers
             return View(appointment);
         }
 
+
         // GET: Appointments/Create
         public IActionResult Create()
         {

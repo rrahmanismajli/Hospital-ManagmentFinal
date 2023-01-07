@@ -46,41 +46,40 @@ namespace Hospital_Managment.Controllers
 
             return View(bill);
         }
-
-        // GET: Bills/Create
         public IActionResult Create()
         {
-            List<Patient> patient = this._context.Patients.ToList();
-            List<Appointment>appointment=this._context.Appointments.ToList();
-            List<Payment>payments=this._context.Payments.ToList();
-            BillViewModel model = new BillViewModel();
-            model.Patient = patient;
-            model.Appointment = appointment;
-            return View(model);
+            List<SelectListItem> patients = _context.Patients.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.FirstName }).ToList();
+           ViewBag.patients = patients;
+           return View();
         }
 
-        // POST: Bills/Create
+        // POST: Doctors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BillViewModel model)
+        public async Task<IActionResult> Create(BillViewModel bill)
         {
-            var patient = this._context.Patients.Find(model.PatientId);
-            var appointment=this._context.Appointments.Find(model.AppointmentId);
-            var payment = this._context.Payments.Find(model.PaymenttId);          
-            var bill= new Bill();
-            bill.Patient = patient;
-            bill.Appointment = appointment;
-            bill.Amount = model.Amount;
-            bill.Notes = model.Notes;
-            bill.Paid = model.Paid;
-            this._context.Bills.Add(bill);
-            this._context.SaveChanges();
-            return View();
 
-         
+
+            Bill insertBill = new Bill
+            {
+
+                PatientId = bill.PatientId,
+               Amount =bill.Amount,
+               Notes= bill.Notes,
+               Paid=bill.Paid
+              
+
+            };
+
+            _context.Add(insertBill);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+            return View(bill);
         }
+
 
         // GET: Bills/Edit/5
         public async Task<IActionResult> Edit(int? id)

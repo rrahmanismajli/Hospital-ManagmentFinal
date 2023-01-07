@@ -46,13 +46,15 @@ namespace Hospital_Managment.Controllers
             return View(doctor);
         }
 
+   
         // GET: Doctors/Create
         public IActionResult Create()
         {
-            List<Department> department = this._context.Departments.ToList();
-            DoctorViewModel model=new DoctorViewModel();
-            model.Department= department;
-            return View(model);
+            List<SelectListItem> departments = _context.Departments.Select(x => new SelectListItem { Value = x.DepartmentId.ToString(), Text = x.Name }).ToList();
+
+            ViewBag.departments = departments;
+
+            return View();
         }
 
         // POST: Doctors/Create
@@ -60,24 +62,29 @@ namespace Hospital_Managment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DoctorViewModel model)
+        public async Task<IActionResult> Create(DoctorViewModel doctor)
         {
-            var department = this._context.Departments.Find(model.DepartmentId);
+        
 
-            var doctor = new Doctor();
-            doctor.FirstName = model.FirstName;
-            doctor.LastName = model.LastName;
-            doctor.Specialty=model.Specialty;
-            doctor.PhoneNumber=model.PhoneNumber;
-            doctor.Email = model.Email;
-            doctor.Address = model.Address;
-            doctor.Department = department;
-            this._context.Doctors.Add(doctor);
-            this._context.SaveChanges();
+            Doctor insertDoctor = new Doctor
+            {
 
-         
-            return View();
-        }
+                FirstName= doctor.FirstName,
+                LastName = doctor.LastName,
+                Specialty=doctor.Specialty,
+                Email=doctor.Email,
+                Address=doctor.Address,
+                PhoneNumber=doctor.PhoneNumber,
+                DepartmentId = doctor.DepartmentId
+
+            };
+
+            _context.Add(insertDoctor);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        
+            return View(doctor);
+    }
 
         // GET: Doctors/Edit/5
         public async Task<IActionResult> Edit(int? id)
