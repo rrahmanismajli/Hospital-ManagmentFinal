@@ -49,8 +49,10 @@ namespace Hospital_Managment.Controllers
         // GET: Doctors/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId");
-            return View();
+            List<Department> department = this._context.Departments.ToList();
+            DoctorViewModel model=new DoctorViewModel();
+            model.Department= department;
+            return View(model);
         }
 
         // POST: Doctors/Create
@@ -58,26 +60,23 @@ namespace Hospital_Managment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DoctorId,FirstName,LastName,Specialty,PhoneNumber,Email,Address,DepartmentId")] DoctorViewModel doctor)
+        public async Task<IActionResult> Create(DoctorViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                Doctor d = new Doctor();
-                d.DoctorId=doctor.DoctorId;
-                d.Email = doctor.Email;
-                d.Address = doctor.Address;
-                d.PhoneNumber  = doctor.PhoneNumber;
-                d.LastName = doctor.LastName;
-                d.FirstName = doctor.FirstName; 
-                d.Specialty = doctor.Specialty;
-                d.DepartmentId = doctor.DepartmentId;
-                _context.Add(d);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId", doctor.DepartmentId);
+            var department = this._context.Departments.Find(model.DepartmentId);
+
+            var doctor = new Doctor();
+            doctor.FirstName = model.FirstName;
+            doctor.LastName = model.LastName;
+            doctor.Specialty=model.Specialty;
+            doctor.PhoneNumber=model.PhoneNumber;
+            doctor.Email = model.Email;
+            doctor.Address = model.Address;
+            doctor.Department = department;
+            this._context.Doctors.Add(doctor);
+            this._context.SaveChanges();
+
          
-            return View(doctor);
+            return View();
         }
 
         // GET: Doctors/Edit/5
