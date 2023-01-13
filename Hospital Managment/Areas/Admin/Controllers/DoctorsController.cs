@@ -47,10 +47,14 @@ namespace Hospital_Managment.Areas.Admin.Controllers
             return View(doctor);
         }
 
+   
         // GET: Doctors/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId");
+            List<SelectListItem> departments = _context.Departments.Select(x => new SelectListItem { Value = x.DepartmentId.ToString(), Text = x.Name }).ToList();
+
+            ViewBag.departments = departments;
+
             return View();
         }
 
@@ -59,9 +63,11 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DoctorId,FirstName,LastName,Specialty,PhoneNumber,Email,Address,DepartmentId")] DoctorViewModel doctor)
+        public async Task<IActionResult> Create(DoctorViewModel doctor)
         {
-            if (ModelState.IsValid)
+        
+
+            Doctor insertDoctor = new Doctor
             {
                 Doctor d = new Doctor();
                 d.DoctorId = doctor.DoctorId;
@@ -79,7 +85,7 @@ namespace Hospital_Managment.Areas.Admin.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId", doctor.DepartmentId);
 
             return View(doctor);
-        }
+    }
 
         // GET: Doctors/Edit/5
         public async Task<IActionResult> Edit(int? id)

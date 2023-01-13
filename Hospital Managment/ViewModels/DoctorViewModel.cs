@@ -1,4 +1,8 @@
-﻿namespace Hospital_Managment.ViewModels
+﻿using Hospital_Managment.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Hospital_Managment.ViewModels
 {
     public class DoctorViewModel
     {
@@ -10,5 +14,7 @@
         public string Email { get; set; }
         public string Address { get; set; }
         public int DepartmentId { get; set; }
+
+        public SelectListItem Department { get; set; }
     }
 }

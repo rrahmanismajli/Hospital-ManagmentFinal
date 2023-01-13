@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Managment.Models
 {
@@ -27,14 +28,21 @@ namespace Hospital_Managment.Models
         [Required(ErrorMessage = "Primary Care Physician  is required")]
         public string PrimaryCarePhysician { get; set; }
 
-  
+        [ValidateNever]
         public List<Appointment> Appointments { get; set; }
+        [ValidateNever]
         public List<Bill> Bills { get; set; }
+        [ValidateNever]
         public List<Prescription> Prescriptions { get; set; }
+        [ValidateNever]
         public List<TestResult> TestResults { get; set; }
+        [ValidateNever]
         public List<InsuranceCompany> InsuranceCompanies{ get; set; }
+        [ValidateNever]
         public List<Treatment> Treatments{ get; set; }
+        [ValidateNever]
         public List<Hospitalization> Hospitalizations { get; set; }
+        [ValidateNever]
         public List<PatientInsuranceCompany> PatientInsuranceCompanies{ get; set; }
     }
 

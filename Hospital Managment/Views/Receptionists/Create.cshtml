@@ -1,13 +1,12 @@
-﻿@model Hospital_Managment.ViewModels.DoctorViewModel
+﻿@model Hospital_Managment.Models.Receptionist
+
 @{
     ViewData["Title"] = "Create";
-    var Departments = (List<SelectListItem>)ViewBag.departments;
-
 }
 
 <h1>Create</h1>
 
-<h4>Doctor</h4>
+<h4>Receptionist</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,11 +23,6 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Specialty" class="control-label"></label>
-                <input asp-for="Specialty" class="form-control" />
-                <span asp-validation-for="Specialty" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
@@ -37,16 +31,6 @@
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Cakto departamentin</label>
-                <select asp-for="DepartmentId" asp-items="@Departments">
-                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

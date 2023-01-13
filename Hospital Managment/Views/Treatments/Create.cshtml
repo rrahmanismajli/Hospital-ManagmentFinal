@@ -1,4 +1,4 @@
-﻿@model Hospital_Managment.ViewModels.HospitalizationViewModel
+﻿@model Hospital_Managment.Models.Treatment
 
 @{
     ViewData["Title"] = "Create";
@@ -6,37 +6,29 @@
 
 <h1>Create</h1>
 
-<h4>Hospitalization</h4>
+<h4>Treatment</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label class="control-label">Cakto Pacientin</label>
-                <select asp-for="PatientId" class="form-selest form-control">
-              @foreach(Patient patient in Model.Patient){
-                  <option value="@patient.Id">@patient.FirstName @patient.LastName</option>
-
-              }
-            </select>
-              
+                <label asp-for="PatientId" class="control-label"></label>
+                <select asp-for="PatientId" class ="form-control" asp-items="ViewBag.PatientId"></select>
             </div>
             <div class="form-group">
-                <label class="control-label">Cakto Doktorin</label>
-                <select asp-for="DoctorId" class="form-selest form-control">
-                    @foreach (Doctor doctor in Model.Doctor)
-                    {
-                        <option value="@doctor.DoctorId">@doctor.FirstName @doctor.LastName</option>
-
-                    }
-                </select>
-
+                <label asp-for="DoctorId" class="control-label"></label>
+                <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="RoomNumber" class="control-label"></label>
-                <input asp-for="RoomNumber" class="form-control" />
-                <span asp-validation-for="RoomNumber" class="text-danger"></span>
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>

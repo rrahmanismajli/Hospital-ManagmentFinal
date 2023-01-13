@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Hospital_Managment.ViewModels;
 
 namespace Hospital_Managment.Controllers
 {
@@ -49,9 +50,12 @@ namespace Hospital_Managment.Controllers
         // GET: Hospitalizations/Create
         public IActionResult Create()
         {
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "FirstName");
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id");
-            return View();
+            List<Patient> patient = this._context.Patients.ToList();
+            List<Doctor> doctor = this._context.Doctors.ToList();
+            HospitalizationViewModel model = new HospitalizationViewModel();
+            model.Patient = patient;
+            model.Doctor = doctor;
+            return View(model);
         }
 
         // POST: Hospitalizations/Create
@@ -59,17 +63,21 @@ namespace Hospital_Managment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HospitalizationId,PatientId,DoctorId,RoomNumber,StartDate,EndDate")] Hospitalization hospitalization)
+        public async Task<IActionResult> Create(HospitalizationViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(hospitalization);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "FirstName", hospitalization.DoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id", hospitalization.PatientId);
-            return View(hospitalization);
+            var patient = this._context.Patients.Find(model.PatientId);
+            var doctor = this._context.Doctors.Find(model.DoctorId);
+
+            var hospitalization = new Hospitalization();
+            hospitalization.Doctor = doctor;
+            hospitalization.Patient = patient;
+            hospitalization.RoomNumber = model.RoomNumber;
+            hospitalization.StartDate = model.StartDate;
+            hospitalization.EndDate = model.EndDate;
+            this._context.Hospitalizations.Add(hospitalization);
+            this._context.SaveChanges();
+
+            return View();
         }
 
         // GET: Hospitalizations/Edit/5
