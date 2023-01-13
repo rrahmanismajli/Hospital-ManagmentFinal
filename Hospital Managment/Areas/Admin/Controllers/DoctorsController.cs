@@ -65,11 +65,9 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DoctorViewModel doctor)
         {
-        
-
-            Doctor insertDoctor = new Doctor
+            Doctor d = new Doctor();
+            if (ModelState.IsValid)
             {
-                Doctor d = new Doctor();
                 d.DoctorId = doctor.DoctorId;
                 d.Email = doctor.Email;
                 d.Address = doctor.Address;
@@ -81,7 +79,10 @@ namespace Hospital_Managment.Areas.Admin.Controllers
                 _context.Add(d);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+               
             }
+            
+  
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId", doctor.DepartmentId);
 
             return View(doctor);

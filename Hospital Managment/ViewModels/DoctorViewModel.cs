@@ -1,4 +1,5 @@
 ﻿using Hospital_Managment.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,6 +16,7 @@ namespace Hospital_Managment.ViewModels
         public string Address { get; set; }
         public int DepartmentId { get; set; }
 
+        [ValidateNever]
         public SelectListItem Department { get; set; }
     }
 }
