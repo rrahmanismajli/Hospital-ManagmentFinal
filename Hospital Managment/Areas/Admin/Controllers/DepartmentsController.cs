@@ -8,87 +8,88 @@ using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
 
-namespace Hospital_Managment.Controllers
+namespace Hospital_Managment.Areas.Admin.Controllers
 {
-    public class PatientsController : Controller
+    [Area("Admin")]
+    public class DepartmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PatientsController(ApplicationDbContext context)
+        public DepartmentsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Patients
+        // GET: Departments
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Patients.ToListAsync());
+            return View(await _context.Departments.ToListAsync());
         }
 
-        // GET: Patients/Details/5
+        // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Patients == null)
+            if (id == null || _context.Departments == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (patient == null)
+            var department = await _context.Departments
+                .FirstOrDefaultAsync(m => m.DepartmentId == id);
+            if (department == null)
             {
                 return NotFound();
             }
 
-            return View(patient);
+            return View(department);
         }
 
-        // GET: Patients/Create
+        // GET: Departments/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Patients/Create
+        // POST: Departments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateOfBirth,Gender,PhoneNumber,Email,Address,InsuranceProvider,PrimaryCarePhysician")] Patient patient)
+        public async Task<IActionResult> Create([Bind("DepartmentId,Name,PhoneNumber,Email")] Department department)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(patient);
+                _context.Add(department);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            return View(department);
         }
 
-        // GET: Patients/Edit/5
+        // GET: Departments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Patients == null)
+            if (id == null || _context.Departments == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
+            var department = await _context.Departments.FindAsync(id);
+            if (department == null)
             {
                 return NotFound();
             }
-            return View(patient);
+            return View(department);
         }
 
-        // POST: Patients/Edit/5
+        // POST: Departments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateOfBirth,Gender,PhoneNumber,Email,Address,InsuranceProvider,PrimaryCarePhysician")] Patient patient)
+        public async Task<IActionResult> Edit(int id, [Bind("DepartmentId,Name,PhoneNumber,Email")] Department department)
         {
-            if (id != patient.Id)
+            if (id != department.DepartmentId)
             {
                 return NotFound();
             }
@@ -97,12 +98,12 @@ namespace Hospital_Managment.Controllers
             {
                 try
                 {
-                    _context.Update(patient);
+                    _context.Update(department);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PatientExists(patient.Id))
+                    if (!DepartmentExists(department.DepartmentId))
                     {
                         return NotFound();
                     }
@@ -113,49 +114,49 @@ namespace Hospital_Managment.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            return View(department);
         }
 
-        // GET: Patients/Delete/5
+        // GET: Departments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Patients == null)
+            if (id == null || _context.Departments == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (patient == null)
+            var department = await _context.Departments
+                .FirstOrDefaultAsync(m => m.DepartmentId == id);
+            if (department == null)
             {
                 return NotFound();
             }
 
-            return View(patient);
+            return View(department);
         }
 
-        // POST: Patients/Delete/5
+        // POST: Departments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Patients == null)
+            if (_context.Departments == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Patients'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Departments'  is null.");
             }
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient != null)
+            var department = await _context.Departments.FindAsync(id);
+            if (department != null)
             {
-                _context.Patients.Remove(patient);
+                _context.Departments.Remove(department);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PatientExists(int id)
+        private bool DepartmentExists(int id)
         {
-          return _context.Patients.Any(e => e.Id == id);
+            return _context.Departments.Any(e => e.DepartmentId == id);
         }
     }
 }

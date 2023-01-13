@@ -9,8 +9,9 @@ using Hospital_Managment.Data;
 using Hospital_Managment.Models;
 using Hospital_Managment.ViewModels;
 
-namespace Hospital_Managment.Controllers
+namespace Hospital_Managment.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class DoctorsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -63,12 +64,12 @@ namespace Hospital_Managment.Controllers
             if (ModelState.IsValid)
             {
                 Doctor d = new Doctor();
-                d.DoctorId=doctor.DoctorId;
+                d.DoctorId = doctor.DoctorId;
                 d.Email = doctor.Email;
                 d.Address = doctor.Address;
-                d.PhoneNumber  = doctor.PhoneNumber;
+                d.PhoneNumber = doctor.PhoneNumber;
                 d.LastName = doctor.LastName;
-                d.FirstName = doctor.FirstName; 
+                d.FirstName = doctor.FirstName;
                 d.Specialty = doctor.Specialty;
                 d.DepartmentId = doctor.DepartmentId;
                 _context.Add(d);
@@ -76,7 +77,7 @@ namespace Hospital_Managment.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId", doctor.DepartmentId);
-         
+
             return View(doctor);
         }
 
@@ -166,14 +167,14 @@ namespace Hospital_Managment.Controllers
             {
                 _context.Doctors.Remove(doctor);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DoctorExists(int id)
         {
-          return _context.Doctors.Any(e => e.DoctorId == id);
+            return _context.Doctors.Any(e => e.DoctorId == id);
         }
     }
 }

@@ -8,8 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
 
-namespace Hospital_Managment.Controllers
+namespace Hospital_Managment.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -173,14 +174,14 @@ namespace Hospital_Managment.Controllers
             {
                 _context.Appointments.Remove(appointment);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AppointmentExists(int id)
         {
-          return _context.Appointments.Any(e => e.AppointmentId == id);
+            return _context.Appointments.Any(e => e.AppointmentId == id);
         }
     }
 }
