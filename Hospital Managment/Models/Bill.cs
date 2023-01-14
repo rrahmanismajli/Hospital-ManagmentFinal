@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_Managment.Models
@@ -18,7 +19,7 @@ namespace Hospital_Managment.Models
         [Required(ErrorMessage = "Paid is required")]
         public bool Paid { get; set; }
 
-
+        [ValidateNever]
         public List<Payment> Payments { get; set; }
         public Appointment Appointment { get; set; }
     }
