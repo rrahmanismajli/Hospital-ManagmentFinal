@@ -1,6 +1,9 @@
 using Hospital_Managment.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Hospital_Managment.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +13,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
+builder.Services.AddRazorPages() ;
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -41,12 +46,6 @@ app.MapControllerRoute(
     pattern: "{area=Costumer}/{controller=Home}/{action=Index}/{id?}");
 
 
+//app.MapRazorPages();
 app.Run();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-      name: "areas",
-      pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
-    );
-});

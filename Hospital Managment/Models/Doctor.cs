@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Managment.Models
 {
@@ -21,6 +22,9 @@ namespace Hospital_Managment.Models
         public string Address { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
+       
+        [ValidateNever]
+        public string  ImageUrl { get; set; }
 
         public List<Prescription> Prescription { get; set; }
         public List<Appointment> Appointments { get; set; }

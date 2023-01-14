@@ -15,10 +15,12 @@ namespace Hospital_Managment.Areas.Admin.Controllers
     public class DoctorsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public DoctorsController(ApplicationDbContext context)
+        public DoctorsController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment; 
         }
 
         // GET: Doctors
@@ -63,11 +65,30 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DoctorViewModel doctor)
+        public async Task<IActionResult> Create(DoctorViewModel doctor,IFormFile? file)
         {
+            
+            
             Doctor d = new Doctor();
+
+            
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\doctors");
+                    var extension = Path.GetExtension(file.FileName);
+
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    doctor.ImageUrl = @"\images\doctors\" + fileName + extension;
+
+                }
+
                 d.DoctorId = doctor.DoctorId;
                 d.Email = doctor.Email;
                 d.Address = doctor.Address;
@@ -75,6 +96,7 @@ namespace Hospital_Managment.Areas.Admin.Controllers
                 d.LastName = doctor.LastName;
                 d.FirstName = doctor.FirstName;
                 d.Specialty = doctor.Specialty;
+                d.ImageUrl=doctor.ImageUrl ;
                 d.DepartmentId = doctor.DepartmentId;
                 _context.Add(d);
                 await _context.SaveChangesAsync();

@@ -24,12 +24,14 @@ namespace Hospital_Managment.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<MedicalEquipment> MedicalEquipment { get; set; }
         public DbSet<Supply> Supplies { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Nurse> Nurses { get; set; }
         public DbSet<Receptionist> Receptionists { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PatientInsuranceCompany> PatientInsuranceCompanies { get; set; }
         public DbSet<DoctorAppointment> DoctorAppointments { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -76,6 +78,7 @@ namespace Hospital_Managment.Data
                 entity.Property(e => e.AppointmentId).ValueGeneratedOnAdd();
                 entity.HasOne(e => e.Patient).WithMany(e => e.Appointments).HasForeignKey(e => e.PatientId).OnDelete(DeleteBehavior.ClientSetNull);
                 entity.HasOne(e => e.Doctor).WithMany(e => e.Appointments).HasForeignKey(e => e.DoctorId);
+
             });
             modelBuilder.Entity<TestResult>(entity =>
             {
@@ -94,21 +97,24 @@ namespace Hospital_Managment.Data
                 entity.HasOne(e => e.Doctor).WithMany(e => e.Prescription).HasForeignKey(e => e.DoctorId);
             });
 
-            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+          modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
             {
                 entity.ToTable("UserLogins");
-                entity.HasKey(a => a.UserId);
+                entity.HasIndex(a=>a.UserId);
+                entity.HasKey(a=> new { a.LoginProvider, a.ProviderKey });
             });
-            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
-            {
-                entity.ToTable("UserRole");
-                entity.HasKey(a => a.UserId);
+            modelBuilder.Entity<IdentityUserRole<string>>(b => { 
+            
+                b.HasKey(r => new { r.UserId, r.RoleId });
+                b.HasIndex(a => a.RoleId);
+                b.ToTable("UserRole");
             });
-            modelBuilder.Entity<IdentityUserToken<string>>(entity =>
-            {
-                entity.ToTable("UserToken");
-                entity.HasKey(a => a.UserId);
-            });
+            
+               modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+               {
+                   entity.ToTable("UserToken");
+                   entity.HasKey(r => new { r.UserId, r.LoginProvider,r.Name });
+               });
         }
 
     }

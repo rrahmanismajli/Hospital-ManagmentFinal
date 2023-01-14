@@ -14,6 +14,8 @@ namespace Hospital_Managment.ViewModels
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
+        [ValidateNever]
+        public string ImageUrl { get; set; }
         public int DepartmentId { get; set; }
 
         [ValidateNever]
