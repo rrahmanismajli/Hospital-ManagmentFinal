@@ -25,11 +25,15 @@ namespace Hospital_Managment.Models
        
         [ValidateNever]
         public string  ImageUrl { get; set; }
-
+        [ValidateNever]
         public List<Prescription> Prescription { get; set; }
+        [ValidateNever]
         public List<Appointment> Appointments { get; set; }
+        [ValidateNever]
         public List<Treatment> Treatments { get; set; }
+        [ValidateNever]
         public List<DoctorAppointment> DoctorAppointments{ get; set; }
+        [ValidateNever]
         public List<Hospitalization> Hospitalizations{ get; set; }
     }
 
