@@ -26,8 +26,9 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // GET: Doctors
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Doctors.Include(d => d.Department);
-            return View(await applicationDbContext.ToListAsync());
+            //var applicationDbContext = _context.Doctors.Include(d => d.Department);
+            //return View(await applicationDbContext.ToListAsync());
+            return View();
         }
 
         // GET: Doctors/Details/5
@@ -205,5 +206,19 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         {
             return _context.Doctors.Any(e => e.DoctorId == id);
         }
+        #region API CAllS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            
+            var doctors = _context.Doctors.Include(u => u.Department).ToList();
+            return Json(new { data = doctors });
+
+        }
+
+        #endregion
     }
+
+
 }
+

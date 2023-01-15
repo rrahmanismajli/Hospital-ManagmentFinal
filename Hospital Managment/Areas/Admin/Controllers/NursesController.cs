@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Microsoft.Extensions.Hosting;
+using System.Numerics;
 
 namespace Hospital_Managment.Areas.Admin.Controllers
 {
@@ -14,10 +16,11 @@ namespace Hospital_Managment.Areas.Admin.Controllers
     public class NursesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public NursesController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public NursesController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment; 
         }
 
         // GET: Nurses
@@ -55,10 +58,25 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NurseId,FirstName,LastName,PhoneNumber,Email")] Nurse nurse)
+        public async Task<IActionResult> Create([Bind("NurseId,FirstName,LastName,PhoneNumber,ImageUrl,Email")] Nurse nurse,IFormFile? file)
         {
             if (ModelState.IsValid)
+
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\nurses");
+                    var extension = Path.GetExtension(file.FileName);
+
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    nurse.ImageUrl = @"\images\nurses\" + fileName + extension;
+
+                }
                 _context.Add(nurse);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

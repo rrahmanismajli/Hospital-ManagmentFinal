@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\dashboard\Data\" />
-    <Folder Include="Areas\dashboard\Models\" />
     <Folder Include="wwwroot\images\doctors\" />
+    <Folder Include="wwwroot\images\departments\" />
+    <Folder Include="wwwroot\images\nurses\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 

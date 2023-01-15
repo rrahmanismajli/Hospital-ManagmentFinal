@@ -18,5 +18,7 @@ namespace Hospital_Managment.Models
         public string Email { get; set; }
         [ValidateNever]
         public List<Appointment> Appointments { get; set; }
+        [ValidateNever]
+        public string  ImageUrl { get; set; }
     }
 }

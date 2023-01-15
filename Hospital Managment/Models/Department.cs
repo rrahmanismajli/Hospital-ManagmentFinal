@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Managment.Models
 {
@@ -13,7 +14,9 @@ namespace Hospital_Managment.Models
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; }
+        [ValidateNever]
+        public string ImageUrl { get; set; }
 
-       
+
     }
 }

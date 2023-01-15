@@ -10,12 +10,13 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="https://demos.creative-tim.com/soft-ui-design-system/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="https://demos.creative-tim.com/soft-ui-design-system/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="~/css/theme.css">
     <link rel="stylesheet" href="~/css/loopple/loopple.css">
         
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Hospital_Managment.styles.css" asp-append-version="true" />
+   
 </head>
 <body>
     <header>
@@ -41,6 +42,9 @@
                         </li>
                         <li class="nav-item mx-2">
                             <a asp-area="Admin" asp-controller="Doctors" asp-action="Index" class="nav-link ps-2 cursor-pointer">Find a Doctor</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="nav-link ps-2 cursor-pointer">Dashboard</a>
                         </li>
                         <li class="nav-item mx-2">
                             <a asp-area="Admin" asp-controller="Departments" asp-action="Index" class="nav-link ps-2 cursor-pointer">Departments</a>
@@ -219,6 +223,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://loopple.s3.eu-west-3.amazonaws.com/soft-ui-design-system/js/core/bootstrap.min.js" ></script>
+    <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://demos.creative-tim.com/soft-ui-design-system/assets/js/soft-design-system.min.js?v=1.0.5" ></script>
     <script src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/js/plugins/countup.min.js"> </script>
     <script src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/js/plugins/flatpickr.min.js"></script>
