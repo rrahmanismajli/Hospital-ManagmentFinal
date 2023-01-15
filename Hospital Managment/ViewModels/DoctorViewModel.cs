@@ -20,5 +20,7 @@ namespace Hospital_Managment.ViewModels
 
         [ValidateNever]
         public SelectListItem Department { get; set; }
+        [ValidateNever]
+        public int AppointmentCount { get; set; }
     }
 }

@@ -51,9 +51,11 @@
           <li class="sidebar-list-item">
             <span class="material-icons-outlined">inventory_2</span> Departments
           </li>
+          <a asp-area="Admin" asp-controller="Doctors" asp-action="Index" class="nav-link ps-2 cursor-pointer">
           <li class="sidebar-list-item">
-                    <span class="material-symbols-outlined">stethoscope</span><a asp-area="Admin" asp-controller="Dashboard" asp-action="Doctor" class="nav-link ps-2 cursor-pointer">Doctors</a> 
+                    <span class="material-symbols-outlined">stethoscope</span>DOCTORS
           </li>
+          </a>
           <li class="sidebar-list-item"> 
             <span class="material-icons-outlined">groups</span> Patients
           </li>
@@ -83,23 +85,24 @@
               <h3>DEPARTMENTS</h3>
               <span class="material-icons-outlined">inventory_2</span>
             </div>
-            <h1>249</h1>
+                    <h1>@ViewBag.TotalDepartments</h1>
           </div>
-
+          <a asp-controller="Doctors" asp-action="">
           <div class="card">
             <div class="card-inner">
-              <h3>DOCTORS</h3>
-              <span class="material-symbols-outlined">stethoscope</span>
+              <h3 style="color:white;text-decoration:none;">DOCTORS</h3>
+                            <span style="color:white;" class="material-symbols-outlined">stethoscope</span>
             </div>
-            <h1>25</h1>
+            <h1>@ViewBag.TotalDoctors</h1>
           </div>
+                </a>
 
           <div class="card">
             <div class="card-inner">
               <h3>PATIENTS</h3>
               <span class="material-icons-outlined">groups</span>
             </div>
-            <h1>1500</h1>
+                    <h1>@ViewBag.TotalPatients</h1>
           </div>
 
           <div class="card">
@@ -107,7 +110,7 @@
               <h3>APPOINTMENTS</h3>
               <span class="material-symbols-outlined">clinical_notes</span> 
             </div>
-            <h1>56</h1>
+                    <h1>@ViewBag.TotalAppointments</h1>
           </div>
 
         </div>

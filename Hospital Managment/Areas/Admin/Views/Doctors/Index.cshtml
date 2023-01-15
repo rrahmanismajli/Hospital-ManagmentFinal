@@ -13,6 +13,7 @@
             <a asp-controller="Doctors" asp-action="Create" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> &nbsp; Create New Doctor
             </a>
+            <h1>@ViewBag.AppD</h1>
         </div>
     </div>
     <br /><br />
@@ -28,6 +29,7 @@
                 <th> @Html.DisplayNameFor(model => model.Address)</th>
                 <th> @Html.DisplayNameFor(model => model.Department)</th>
                 <th>Actions</th>
+                
             </tr>
         </thead>
     </table>

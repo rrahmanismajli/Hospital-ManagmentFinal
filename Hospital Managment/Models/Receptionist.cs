@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Managment.Models
 {
@@ -11,11 +12,11 @@ namespace Hospital_Managment.Models
         [Required(ErrorMessage = "Last Name is required")]
         public string LastName { get; set; }
         [Required(ErrorMessage = "Phone Number is required")]
-        [StringLength(13, MinimumLength = 9, ErrorMessage = "Phone Number must be between 9 and 13 numbers")]
+        [StringLength(13, MinimumLength = 2, ErrorMessage = "Phone Number must be between 9 and 13 numbers")]
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; }
-
+        [ValidateNever]
         public List<Appointment> Appointments { get; set; }
     }
 }

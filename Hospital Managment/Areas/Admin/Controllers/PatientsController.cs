@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Hospital_Managment.ViewModels;
 
 namespace Hospital_Managment.Areas.Admin.Controllers
 {
@@ -43,7 +44,7 @@ namespace Hospital_Managment.Areas.Admin.Controllers
 
             return View(patient);
         }
-
+     
         // GET: Patients/Create
         public IActionResult Create()
         {

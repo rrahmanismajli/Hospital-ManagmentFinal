@@ -1,0 +1,17 @@
+﻿<table>
+    <thead>
+        <tr>
+            <th>Doctor Name</th>
+            <th>Appointment Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var doctor in Model)
+        {
+            <tr>
+                <td>@doctor.DoctorName</td>
+                <td>@doctor.AppointmentCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -54,11 +54,13 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            List<SelectListItem> doctor=_context.Doctors.Select(x =>new SelectListItem { Value =x.DoctorId.ToString(),Text=x.FirstName }).ToList();
+            List<SelectListItem> doctor=_context.Doctors.Select(x =>new SelectListItem { Value =x.DoctorId.ToString(),Text=x.FirstName+x.LastName }).ToList();
             ViewBag.Doctor = doctor;
             List<SelectListItem> nurse = _context.Nurses.Select(x => new SelectListItem { Value = x.NurseId.ToString(), Text = x.FirstName }).ToList();
             ViewBag.Nurse = nurse;
-            List<SelectListItem> receptionist = _context.Receptionists.Select(x => new SelectListItem { Value = x.ReceptionistId.ToString(), Text = x.FirstName }).ToList();
+            List<SelectListItem> patient = _context.Patients.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.FirstName+x.LastName }).ToList();
+            ViewBag.Patient = patient;
+            List<SelectListItem> receptionist = _context.Receptionists.Select(x => new SelectListItem { Value = x.ReceptionistId.ToString(), Text = x.FirstName+x.LastName }).ToList();
             ViewBag.Receptionist = receptionist;
             return View();
            

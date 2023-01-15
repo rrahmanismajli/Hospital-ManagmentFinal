@@ -12,10 +12,21 @@ namespace Hospital_Managment.Areas.Admin.Controllers
 
     {
 
+        private readonly ApplicationDbContext _context;
 
+        public DashboardController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+    
         // GET: HomeController
         public ActionResult Index()
         {
+            ViewBag.TotalDoctors = _context.Doctors.Count();
+            ViewBag.TotalPatients = _context.Patients.Count();
+            ViewBag.TotalAppointments = _context.Appointments.Count();
+            ViewBag.TotalDepartments = _context.Departments.Count();
             return View("~/Areas/Admin/Views/Dashboard/Index.cshtml");
         }
 

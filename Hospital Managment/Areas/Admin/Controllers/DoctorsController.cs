@@ -26,6 +26,7 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // GET: Doctors
         public async Task<IActionResult> Index()
         {
+            ViewBag.AppD = _context.Appointments.Where(x => x.DoctorId.ToString().Equals(x.DoctorId)).Count();
             //var applicationDbContext = _context.Doctors.Include(d => d.Department);
             //return View(await applicationDbContext.ToListAsync());
             return View();
@@ -71,8 +72,8 @@ namespace Hospital_Managment.Areas.Admin.Controllers
             
             
             Doctor d = new Doctor();
-
             
+
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _hostEnvironment.WebRootPath;
@@ -210,7 +211,7 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            
+           
             var doctors = _context.Doctors.Include(u => u.Department).ToList();
             return Json(new { data = doctors });
 

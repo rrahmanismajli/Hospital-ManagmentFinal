@@ -29,5 +29,6 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

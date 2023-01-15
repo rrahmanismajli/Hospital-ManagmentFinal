@@ -3,9 +3,10 @@
 
 @{
     ViewData["Title"] = "Create";
-     var Doctors = (List<SelectListItem>)ViewBag.doctors;
-    var Nurses = (List<SelectListItem>)ViewBag.nurses;
-      var Receptionists = (List<SelectListItem>)ViewBag.receptionists;
+     var Doctors = (List<SelectListItem>)ViewBag.Doctor;
+    var Nurses = (List<SelectListItem>)ViewBag.Nurse;
+      var Receptionists = (List<SelectListItem>)ViewBag.Receptionist;
+    var Patients = (List<SelectListItem>)ViewBag.Patient;
 }
 
 <h1>Create</h1>
@@ -16,7 +17,11 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-          
+ <div class="form-group">
+                <label class="control-label">Cakto Pacientin</label>
+                <select asp-for="PatientId" asp-items="@Patients">
+                </select>
+            </div>
             <div class="form-group">
                 <label class="control-label">Cakto doktorin</label>
                 <select asp-for="DoctorId" asp-items="@Doctors">

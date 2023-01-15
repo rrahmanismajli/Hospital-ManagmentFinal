@@ -40,19 +40,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Patient.Id)
+                    @Html.DisplayFor(modelItem => item.Patient.FirstName) @Html.DisplayFor(modelItem => item.Patient.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Doctor.FirstName)
+                    @Html.DisplayFor(modelItem => item.Doctor.FirstName) @Html.DisplayFor(modelItem => item.Doctor.LastName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nurse.NurseId)
+                    @Html.DisplayFor(modelItem => item.Nurse.FirstName)  @Html.DisplayFor(modelItem => item.Nurse.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Receptionist.ReceptionistId)
+                    @Html.DisplayFor(modelItem => item.Receptionist.FirstName) @Html.DisplayFor(modelItem => item.Receptionist.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReasonForVisit)
@@ -69,3 +69,4 @@
 }
     </tbody>
 </table>
+<partial name="_LoginPartial" />
