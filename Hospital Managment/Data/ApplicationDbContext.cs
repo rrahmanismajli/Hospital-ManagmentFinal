@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospital_Managment.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -24,7 +24,6 @@ namespace Hospital_Managment.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<MedicalEquipment> MedicalEquipment { get; set; }
         public DbSet<Supply> Supplies { get; set; }
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Nurse> Nurses { get; set; }
         public DbSet<Receptionist> Receptionists { get; set; }
         public DbSet<Bill> Bills { get; set; }
@@ -80,6 +79,17 @@ namespace Hospital_Managment.Data
                 entity.HasOne(e => e.Doctor).WithMany(e => e.Appointments).HasForeignKey(e => e.DoctorId);
 
             });
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.ToTable("Payments");
+                entity.HasKey(e => e.PaymentId);
+                entity.Property(e => e.PaymentId).ValueGeneratedOnAdd();
+                entity.HasOne(e => e.Patient).WithMany(e => e.Payment).HasForeignKey(e => e.PatientId).OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(e => e.Bill).WithMany(e => e.Payments).HasForeignKey(e => e.PatientId).OnDelete(DeleteBehavior.ClientSetNull);
+
+
+
+            });
             modelBuilder.Entity<TestResult>(entity =>
             {
                 entity.ToTable("TestResults");
@@ -94,7 +104,7 @@ namespace Hospital_Managment.Data
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                ;
                 entity.HasOne(e => e.Patient).WithMany(e => e.Prescriptions).HasForeignKey(e => e.PatientId);
-                entity.HasOne(e => e.Doctor).WithMany(e => e.Prescription).HasForeignKey(e => e.DoctorId);
+                entity.HasOne(e => e.Doctor).WithMany(e => e.Prescription).HasForeignKey(e => e.DoctorId).OnDelete(DeleteBehavior.ClientNoAction);
             });
 
           modelBuilder.Entity<IdentityUserLogin<string>>(entity =>

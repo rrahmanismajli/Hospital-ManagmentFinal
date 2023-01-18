@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Build.Framework;
 
 namespace Hospital_Managment.Models
@@ -11,6 +12,8 @@ namespace Hospital_Managment.Models
         public string? City { get; set; }
         public string? State { get; set; }
         public string? PostalCode { get; set; }
+        [ValidateNever]
+        public string? ImageUrl { get; set; }
 
     }
 }

@@ -31,6 +31,9 @@ namespace Hospital_Managment.Models
         [ValidateNever]
         public List<Appointment> Appointments { get; set; }
         [ValidateNever]
+        public List<Payment> Payment { get; set; }
+
+        [ValidateNever]
         public List<Bill> Bills { get; set; }
         [ValidateNever]
         public List<Prescription> Prescriptions { get; set; }

@@ -26,7 +26,7 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Departments.ToListAsync());
+            return View();
         }
 
         // GET: Departments/Details/5
@@ -175,5 +175,16 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         {
             return _context.Departments.Any(e => e.DepartmentId == id);
         }
+        #region API CAllS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+
+            var departments = _context.Departments.ToList();
+            return Json(new { data = departments });
+
+        }
+
+        #endregion
     }
 }

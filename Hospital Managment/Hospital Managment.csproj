@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\doctors\" />
     <Folder Include="wwwroot\images\departments\" />
+    <Folder Include="wwwroot\images\users\" />
     <Folder Include="wwwroot\images\nurses\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>

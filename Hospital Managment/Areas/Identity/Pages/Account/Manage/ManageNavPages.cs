@@ -4,7 +4,7 @@
 
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Hospital_Managment.Models;
 namespace  Hospital_Managment.Areas.Identity.Pages.Account.Manage
 {
     /// <summary>

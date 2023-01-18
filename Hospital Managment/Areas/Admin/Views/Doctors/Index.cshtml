@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Hospital_Managment.Models.Doctor>
 
 @{
-    Layout = "_Layout";
+    Layout = "_dashboard";
     ViewData["Title"] = "Index";
 }
 <div class="container p-3">
@@ -13,22 +13,23 @@
             <a asp-controller="Doctors" asp-action="Create" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> &nbsp; Create New Doctor
             </a>
-            <h1>@ViewBag.AppD</h1>
+            
         </div>
     </div>
     <br /><br />
 
-    <table id="tblData" class="table table-bordered table-striped" style="width:100%">
-        <thead>
+    <table id="tblData"  class=" table-bordered table-white" style="width:100%">
+        <thead class="thead-light">
             <tr>
                 <th> @Html.DisplayNameFor(model => model.FirstName)</th>
-                <th> @Html.DisplayNameFor(model => model.LastName)</th>
                 <th> @Html.DisplayNameFor(model => model.Specialty)</th>
                 <th> @Html.DisplayNameFor(model => model.PhoneNumber)</th>
                 <th> @Html.DisplayNameFor(model => model.Email)</th>
                 <th> @Html.DisplayNameFor(model => model.Address)</th>
                 <th> @Html.DisplayNameFor(model => model.Department)</th>
-                <th>Actions</th>
+                <th>Image</th>
+                <th>Action</th>
+                
                 
             </tr>
         </thead>

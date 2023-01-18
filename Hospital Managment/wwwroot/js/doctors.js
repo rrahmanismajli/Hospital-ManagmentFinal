@@ -11,8 +11,6 @@ function loadDataTable () {
         "columns": [
             {
                "data": "firstName","width":"15%"
-            }, {
-                "data": "lastName", "width": "15%"
             }, 
             {
                 "data": "specialty", "width": "15%"
@@ -30,6 +28,14 @@ function loadDataTable () {
                 "data": "department.name", "width": "15%"
             },
             {
+                "data": "imageUrl",
+                "render": function (data) {
+                    return `
+                      <img width="100px" height="50px" src="${data}"/>
+                        `
+                },
+                "width": "15%"
+            }, {
                 "data": "doctorId",
                 "render": function (data) {
                     return `
@@ -43,9 +49,10 @@ function loadDataTable () {
                 },
                 "width": "15%"
             }
+         
 
         ]
     });
 }
 
-//{"data":[{"doctorId":6,"firstName":"Rrahman","lastName":"Ismajli","specialty":"Admin","phoneNumber":"03233544545","email":"kirurgji@gmail.com","address":"asgdg","departmentId":5,"department":null,"imageUrl":"\\images\\doctors\\886ab8b3-7534-4f8d-baf9-b27e1d2ac918.jpg","prescription":null,"appointments":null,"treatments":null,"doctorAppointments":null,"hospitalizations":null}]}
+//{"data":[{"doctorId":6,"firstName":"Rrahman","lastName":"Ismajli","specialty":"Admin","phoneNumber":"03233544545","email":"kirurgji@gmail.com","address":"asgdg","departmentId":15,"department":null,"imageUrl":"\\images\\doctors\\886ab8b3-7534-4f8d-baf9-b27e1d2ac918.jpg","prescription":null,"appointments":null,"treatments":null,"doctorAppointments":null,"hospitalizations":null}]}
