@@ -1,0 +1,75 @@
+﻿@model Hospital_Managment.ViewModels.ProfileViewModel
+@{
+    Layout = "_dashboard";
+    ViewData["Title"] = "Index";
+}
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Doctor List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Doctors" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Create New Doctor
+            </a>
+
+        </div>
+    </div>
+    <br /><br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </th>
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fullAdress)
+                </th>
+               
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+           
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.FullName)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => modelItem.Username)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => modelItem.Email)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => modelItem.PhoneNumber)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => modelItem.Email)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => modelItem.fullAdress)
+                    </td>
+                    
+                   
+                   
+              </tr>
+          
+        </tbody>
+    </table>
+</div>
+
+

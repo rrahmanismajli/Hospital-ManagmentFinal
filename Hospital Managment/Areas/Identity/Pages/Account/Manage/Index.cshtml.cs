@@ -134,10 +134,32 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
-            var imageUrl = user.ImageUrl;
-            if (imageUrl==null)
+            var oldName = user.Name;
+            if (oldName == Input.FullName && oldName == null)
             {
-                string wwwRootPath = _hostEnvironment.WebRootPath;
+                StatusMessage = "Your Name is same or empty";
+                return RedirectToPage();
+            }
+            else
+            {
+                user.Name = Input.FullName;
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                    StatusMessage = "Your profile has been updated";
+                    return RedirectToPage();
+                }
+                else
+                {
+                    StatusMessage = "Your profile has not been updated";
+                    return RedirectToPage();
+                }
+
+            }
+            //var imageUrl = user.ImageUrl;
+
+            string wwwRootPath = _hostEnvironment.WebRootPath;
                 if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString();
@@ -150,9 +172,24 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
                     }
                    
                     user.ImageUrl = @"\images\users\" + fileName + extension;
-                }
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.RefreshSignInAsync(user);
+                        StatusMessage = "Your profile has been updated";
+                        return RedirectToPage();
+                    }
+                    else
+                    {
+                        StatusMessage = "Your profile has not been updated";
+                        return RedirectToPage();
+                    }
+                
 
             }
+
+        
+
             //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             //if (Input.PhoneNumber != phoneNumber)
             //{
@@ -164,8 +201,8 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
             //    }
             //}
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            //await _signInManager.RefreshSignInAsync(user);
+            //StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
     }

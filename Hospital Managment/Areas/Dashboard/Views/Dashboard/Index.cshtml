@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "_dashboard";
+   
+}
+
+    <div class="main-title">
+        <h2>DASHBOARD</h2>
+    </div>
+
+    <div class="main-cards">
+
+        <div class="card">
+            <div class="card-inner">
+                <h3>DEPARTMENTS</h3>
+                <span class="material-icons-outlined">inventory_2</span>
+            </div>
+            <h1>@ViewBag.TotalDepartments</h1>
+        </div>
+        <a asp-controller="Doctors" asp-action="">
+            <div class="card">
+                <div class="card-inner">
+                    <h3 style="color:white;text-decoration:none;">DOCTORS</h3>
+                    <span style="color:white;" class="material-symbols-outlined">stethoscope</span>
+                </div>
+                <h1>@ViewBag.TotalDoctors</h1>
+            </div>
+        </a>
+
+        <div class="card">
+            <div class="card-inner">
+                <h3>PATIENTS</h3>
+                <span class="material-icons-outlined">groups</span>
+            </div>
+            <h1>@ViewBag.TotalPatients</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <h3>APPOINTMENTS</h3>
+                <span class="material-symbols-outlined">clinical_notes</span>
+            </div>
+            <h1>@ViewBag.TotalAppointments</h1>
+        </div>
+
+    </div>
+

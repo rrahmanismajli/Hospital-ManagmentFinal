@@ -168,6 +168,13 @@ namespace Hospital_Managment.Areas.Admin.Controllers
             return Json(new { data = patients });
 
         }
+        public IActionResult GetAllUsers()
+        {
+
+            var patients = _context.ApplicationUsers.ToList();
+            return Json(new { data = patients });
+
+        }
 
         #endregion
     }

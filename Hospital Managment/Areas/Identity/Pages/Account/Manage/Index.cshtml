@@ -1,13 +1,12 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
 <h3>@ViewData["Title"]</h3>
 @*
-@*<partial name="_StatusMessage" for="StatusMessage" />*@
+@*@
 @*<div class="row">
     <div class="col-md-6">*@
         
@@ -30,12 +29,10 @@
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
-</div>*@*
-<partial name="_ManageNav" />
+</div>*@
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+<partial name="_StatusMessage" for="StatusMessage" />
+
 
     <section style="background-color: #eee;">
         <div class="container py-5">
@@ -43,9 +40,7 @@
                 <div class="col">
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">User</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                    <h1>Profile</h1>
                         </ol>
                     </nav>
                 </div>
@@ -55,12 +50,28 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
+                        @if (Model.Input.ImageUrl == null)
+                        {
+                            
+                            <img alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 150px;" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" />
+                        }
+                        else
+                        {
+                           
                             <img src="@Model.Input.ImageUrl" alt="avatar"
-                             class="rounded-circle img-fluid" style="width: 150px;"/>
+                             class="rounded-circle img-fluid" style="width: 150px;" />
+
+                            
+                        }
+                            
                             <form method="post" enctype="multipart/form-data">
                              <div class="form-group">
-                                <label  class="control-label">Picture Profile</label>
-                                <input type="file" name="file" class="form-control" />
+                                <label class="control-label" for="file-input">
+                                Picture Profile
+                                  <br />  <i  class="fas fa-camera"></i>
+                            </label>
+                                <input type="file" id="file-input" hidden name="file" class="form-control" />
                               <hr />
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
@@ -69,7 +80,7 @@
                             <p class="text-muted mb-1">@Model.Role</p>
                             <p class="text-muted mb-4">@Model.Input.Adress</p>
                             <div class="d-flex justify-content-center mb-2">
-                                <button type="button" class="btn btn-primary">Follow</button>
+                            <partial name="_ManageNav" />
                                 <button type="button" class="btn btn-outline-primary ms-1">Message</button>
                             </div>
                         </div>
@@ -126,8 +137,14 @@
                                 <div class="col-sm-3">
                                     <p class="mb-0">@Html.DisplayNameFor(model => model.Input.FullName)</p>
                                 </div>
+                            
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">@Model.Input.FullName</p>
+                            <form id ="profile-form" method="post">
+                            <input asp-for="Input.FullName"  class="form-control" id="name" value="@Model.Input.FullName" readonly>
+                            <i class="fas fa-pencil-alt edit-icon"></i>
+                            <button id="update-profile-button" type="submit" hidden class="w-100 btn btn-lg btn-primary">Save</button>
+                            </form>
+                                @*<p class="text-muted mb-0">@Model.Input.FullName</p><i class="fas fa-pencil-alt"></i>*@
                                 </div>
                             </div>
                             <hr>
@@ -251,3 +268,14 @@
             </div>
         </div>
     </section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+    $(document).ready(function() {
+    $('.edit-icon').click(function() {
+        $(this).prev().removeAttr('readonly');
+                $(this).next().removeAttr('hidden');
+    });
+});
+    </script>
+}

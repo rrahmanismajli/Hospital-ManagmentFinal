@@ -12,7 +12,7 @@ namespace Hospital_Managment.Models
         public string? City { get; set; }
         public string? State { get; set; }
         public string? PostalCode { get; set; }
-        [ValidateNever]
+      
         public string? ImageUrl { get; set; }
 
     }

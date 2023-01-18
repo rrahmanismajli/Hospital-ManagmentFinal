@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Dashboard\Data\" />
+    <Folder Include="Areas\Dashboard\Models\" />
     <Folder Include="wwwroot\images\doctors\" />
     <Folder Include="wwwroot\images\departments\" />
     <Folder Include="wwwroot\images\users\" />

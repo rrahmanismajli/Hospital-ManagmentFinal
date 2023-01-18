@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewData["Title"] - Hospital Landing Page</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="https://demos.creative-tim.com/soft-ui-design-system/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="https://demos.creative-tim.com/soft-ui-design-system/assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -33,6 +34,7 @@
                         <span class="navbar-toggler-bar bar3"></span>
                     </span>
                 </button>
+               
                 <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
                     <ul class="navbar-nav navbar-nav-hover ms-auto">
                         <li class="nav-item mx-2">
@@ -43,12 +45,7 @@
                         <li class="nav-item mx-2">
                             <a asp-area="Admin" asp-controller="Doctors" asp-action="Index" class="nav-link ps-2 cursor-pointer">Find a Doctor</a>
                         </li>
-                        <li class="nav-item mx-2">
-                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="nav-link ps-2 cursor-pointer">Dashboard</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a asp-area="Admin" asp-controller="Departments" asp-action="Index" class="nav-link ps-2 cursor-pointer">Departments</a>
-                        </li>
+
                         <li class="nav-item mx-2">
                             <a asp-area="Costumer" asp-controller="ContactUs" asp-action="Create" class="btn mb-0 cursor-pointer bg-gradient-info">Contact Us</a>
                         </li>
@@ -225,6 +222,7 @@
     <script src="https://loopple.s3.eu-west-3.amazonaws.com/soft-ui-design-system/js/core/bootstrap.min.js" ></script>
     <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://demos.creative-tim.com/soft-ui-design-system/assets/js/soft-design-system.min.js?v=1.0.5" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/js/plugins/countup.min.js"> </script>
     <script src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/js/plugins/flatpickr.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
