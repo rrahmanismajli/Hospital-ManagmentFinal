@@ -1,10 +1,11 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
-
+    
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Hospital_Managment.Data;
@@ -12,6 +13,7 @@ using Hospital_Managment.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 
 namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
@@ -20,7 +22,7 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
     {
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
-     
+
         private readonly SignInManager<ApplicationUser> _signInManager;
      
 
@@ -87,10 +89,9 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
             var email = user.Email;
             var fullAdress = user.StreetAdress + " " + user.City + " " + user.PostalCode;
             var fullName = user.Name;
-         
 
+        
 
-         
 
             Username = userName;
             Role = role.First();
@@ -135,26 +136,18 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
             var oldName = user.Name;
-            if (oldName == Input.FullName && oldName == null)
+            if (oldName == Input.FullName || Input.FullName == null)
             {
                 StatusMessage = "Your Name is same or empty";
-                return RedirectToPage();
+                
             }
             else
             {
                 user.Name = Input.FullName;
-                var result = await _userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    await _signInManager.RefreshSignInAsync(user);
-                    StatusMessage = "Your profile has been updated";
-                    return RedirectToPage();
-                }
-                else
-                {
-                    StatusMessage = "Your profile has not been updated";
-                    return RedirectToPage();
-                }
+                 await _userManager.UpdateAsync(user);
+               
+                    
+               
 
             }
             //var imageUrl = user.ImageUrl;
@@ -172,23 +165,13 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
                     }
                    
                     user.ImageUrl = @"\images\users\" + fileName + extension;
-                    var result = await _userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        await _signInManager.RefreshSignInAsync(user);
-                        StatusMessage = "Your profile has been updated";
-                        return RedirectToPage();
-                    }
-                    else
-                    {
-                        StatusMessage = "Your profile has not been updated";
-                        return RedirectToPage();
-                    }
+                     await _userManager.UpdateAsync(user);
+                   
                 
 
             }
 
-        
+
 
             //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             //if (Input.PhoneNumber != phoneNumber)
@@ -203,7 +186,10 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
 
             //await _signInManager.RefreshSignInAsync(user);
             //StatusMessage = "Your profile has been updated";
+            await _signInManager.RefreshSignInAsync(user);
+            StatusMessage = "Your profile has been updated";
             return RedirectToPage();
+
         }
     }
 }

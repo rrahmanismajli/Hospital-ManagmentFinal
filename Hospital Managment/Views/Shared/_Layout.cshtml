@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Hospital_Managment.Models.ApplicationUser> SignInManager
+@inject UserManager<Hospital_Managment.Models.ApplicationUser> UserManager
+ 
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   
@@ -24,7 +29,7 @@
         <nav class="navbar navbar-expand-lg py-3 bg-white">
             <div class="container">
                 <a class="navbar-brand w-8" href="#" data-config-id="brand">
-                    <img src="https://www.loopple.com/img/loopple-logo.png" width="80" alt="">
+                    <img src="~/images/icons/istockphoto-1344779917-170667a.jpg" width="50" height="50" alt="">
                 </a>
 
                 <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,13 +48,22 @@
                             </a>
                         </li>
                         <li class="nav-item mx-2">
-                            <a asp-area="Admin" asp-controller="Doctors" asp-action="Index" class="nav-link ps-2 cursor-pointer">Find a Doctor</a>
+                            <a asp-area="Costumer" asp-controller="Home" asp-action="Pharmacy" class="nav-link ps-2 cursor-pointer">
+                                Our Pharmacy
+                            </a>
                         </li>
+                      
 
                         <li class="nav-item mx-2">
                             <a asp-area="Costumer" asp-controller="ContactUs" asp-action="Create" class="btn mb-0 cursor-pointer bg-gradient-info">Contact Us</a>
                         </li>
-                       
+                        
+             @if (SignInManager.IsSignedIn(User))
+                {
+                        <li class="nav-item ">
+                                <a class="nav-link" asp-area="Costumer" asp-controller="Cart" asp-action="Index"> <i class="fas fa-shopping-cart"></i></a>
+                        </li>
+                }
                         <partial name="_LoginPartial" />
                     </ul>
                 </div>

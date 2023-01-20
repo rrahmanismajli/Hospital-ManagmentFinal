@@ -137,6 +137,29 @@ namespace Hospital_Managment.Migrations
                     b.ToTable("Appointments", (string)null);
                 });
 
+            modelBuilder.Entity("Hospital_Managment.Models.Appointmenti", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Appointmentis");
+                });
+
             modelBuilder.Entity("Hospital_Managment.Models.Bill", b =>
                 {
                     b.Property<int>("Id")
@@ -247,6 +270,9 @@ namespace Hospital_Managment.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("AppointmentiId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
@@ -280,6 +306,8 @@ namespace Hospital_Managment.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("DoctorId");
+
+                    b.HasIndex("AppointmentiId");
 
                     b.HasIndex("DepartmentId");
 
@@ -418,6 +446,111 @@ namespace Hospital_Managment.Migrations
                     b.ToTable("Nurses");
                 });
 
+            modelBuilder.Entity("Hospital_Managment.Models.OrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetail");
+                });
+
+            modelBuilder.Entity("Hospital_Managment.Models.OrderHeader", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Carrier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("OrderTotal")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PaymentDueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SessionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ShippingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrackingNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("OrderHeader");
+                });
+
             modelBuilder.Entity("Hospital_Managment.Models.Patient", b =>
                 {
                     b.Property<int>("Id")
@@ -507,6 +640,48 @@ namespace Hospital_Managment.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Payments", (string)null);
+                });
+
+            modelBuilder.Entity("Hospital_Managment.Models.PharmacyProduct", b =>
+                {
+                    b.Property<int>("productId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("productId"), 1L, 1);
+
+                    b.Property<DateTime>("BestBeforeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginFlagUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("productName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("shipped")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("productId");
+
+                    b.ToTable("PharmacyProducts");
                 });
 
             modelBuilder.Entity("Hospital_Managment.Models.Prescription", b =>
@@ -608,6 +783,33 @@ namespace Hospital_Managment.Migrations
                     b.HasKey("SupplyId");
 
                     b.ToTable("Supplies");
+                });
+
+            modelBuilder.Entity("Hospital_Managment.Models.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("Hospital_Managment.Models.TestResult", b =>
@@ -849,6 +1051,17 @@ namespace Hospital_Managment.Migrations
                     b.Navigation("Receptionist");
                 });
 
+            modelBuilder.Entity("Hospital_Managment.Models.Appointmenti", b =>
+                {
+                    b.HasOne("Hospital_Managment.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Hospital_Managment.Models.Bill", b =>
                 {
                     b.HasOne("Hospital_Managment.Models.Appointment", "Appointment")
@@ -870,6 +1083,10 @@ namespace Hospital_Managment.Migrations
 
             modelBuilder.Entity("Hospital_Managment.Models.Doctor", b =>
                 {
+                    b.HasOne("Hospital_Managment.Models.Appointmenti", null)
+                        .WithMany("Doctors")
+                        .HasForeignKey("AppointmentiId");
+
                     b.HasOne("Hospital_Managment.Models.Department", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
@@ -914,6 +1131,36 @@ namespace Hospital_Managment.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("Hospital_Managment.Models.OrderDetails", b =>
+                {
+                    b.HasOne("Hospital_Managment.Models.OrderHeader", "OrderHeader")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hospital_Managment.Models.PharmacyProduct", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderHeader");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Hospital_Managment.Models.OrderHeader", b =>
+                {
+                    b.HasOne("Hospital_Managment.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Hospital_Managment.Models.PatientInsuranceCompany", b =>
@@ -979,6 +1226,25 @@ namespace Hospital_Managment.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Hospital_Managment.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("Hospital_Managment.Models.PharmacyProduct", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hospital_Managment.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Hospital_Managment.Models.TestResult", b =>
                 {
                     b.HasOne("Hospital_Managment.Models.Appointment", "Appointment")
@@ -1042,6 +1308,11 @@ namespace Hospital_Managment.Migrations
                     b.Navigation("Prescriptions");
 
                     b.Navigation("TestResults");
+                });
+
+            modelBuilder.Entity("Hospital_Managment.Models.Appointmenti", b =>
+                {
+                    b.Navigation("Doctors");
                 });
 
             modelBuilder.Entity("Hospital_Managment.Models.Bill", b =>

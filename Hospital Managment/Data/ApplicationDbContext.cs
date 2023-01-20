@@ -31,6 +31,12 @@ namespace Hospital_Managment.Data
         public DbSet<PatientInsuranceCompany> PatientInsuranceCompanies { get; set; }
         public DbSet<DoctorAppointment> DoctorAppointments { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Appointmenti> Appointmentis{ get; set; }
+        public DbSet<PharmacyProduct> PharmacyProducts{ get; set; }
+        public DbSet<ShoppingCart>  ShoppingCarts{ get; set; }
+        public DbSet<OrderHeader>  OrderHeader{ get; set; }
+        public DbSet<OrderDetails>  OrderDetail{ get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

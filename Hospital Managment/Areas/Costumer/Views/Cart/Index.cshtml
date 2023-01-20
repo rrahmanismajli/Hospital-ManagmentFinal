@@ -1,0 +1,143 @@
+﻿@model Hospital_Managment.ViewModels.ShoppingCartVM;
+@{
+    Layout = "_Layout";
+}
+<section class="h-100 h-custom" style="background-color: #d2c9ff;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-8">
+                                <div class="p-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                        
+                                    </div>
+                                    @foreach(var item in Model.ListCart){
+                                        if (item.Count>0)
+                                        {
+                                            <hr class="my-4">
+
+                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                                    <img src="@item.Product.ImagePath"
+                                                 class="img-fluid rounded-3" alt="Cotton T-shirt">
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-muted"></h6>
+                                                    <h6 class="text-black mb-0">@item.Product.productName</h6>
+                                                </div>
+
+                                                @*<div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                        <input id="form1" disabled min="0" name="quantity" value="@item.Count"
+                                        class="form-control form-control-sm" />
+                                        <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                                        <h6 class="mb-0">@item.Product.price.ToString("c")</h6>*@
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                    <div class="w-75 btn-group" role="group">
+                                                        <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
+                                                            <i class="fas fa-plus"></i>
+                                                        </a> &nbsp;
+                                                        <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-warning">
+                                                            <i class="fas fa-minus"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                    <h6 class="mb-0">@item.Count</h6>
+                                                    &nbsp;
+                                                    <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                                                    &nbsp;<h6 class="mb-0">@item.Product.price.ToString("c")</h6>
+
+                                                </div>
+                                                @*</div>*@
+                                                @*  <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                        @{
+                                        var total = item.Product.price * item.Count;
+                                        <h6 class="mb-0">@total</h6>
+                                        }
+                                        </div>*@
+                                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                    <a asp-action="remove" asp-route-cartId="@item.Id" class="text-muted"><i class="fas fa-times"></i></a>
+                                                </div>
+                                            </div>
+
+                                            <hr class="my-4">
+                                        }
+                                       
+                                    }
+                                    
+
+                                    
+
+                                    <div class="pt-5">
+                                        <h6 class="mb-0">
+                                            <a asp-area="Costumer" asp-controller="Home" asp-action="Pharmacy" class="text-body">
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
+                                            </a>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 bg-grey">
+                                <div class="p-5">
+                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <h5 class="text-uppercase">
+                                            @{
+                                                var allItems = Model.ListCart.Count();
+                                               
+                                                <h5 class="text-danger"> Items: @allItems </h5> 
+                                            }
+                                            
+                                        
+                                    </div>
+                                    <div class="mb-4 pb-2">
+                                       
+                                    </div>
+
+                                  @*  <h5 class="text-uppercase mb-3">Give code</h5>
+
+                                    <div class="mb-5">
+                                        <div class="form-outline">
+                                            <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form3Examplea2">Enter your code</label>
+                                        </div>
+                                    </div>*@
+
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h5 class="text-uppercase">Total price</h5>
+                                        <h5>€@Model.OrderHeader.OrderTotal.ToString()</h5>
+                                    </div>
+
+                                    @if (Model.ListCart.Count()>0)
+                                    {<a asp-action="Summary">
+                                        <button  type="button" class="btn btn-dark btn-block btn-lg"
+                                            data-mdb-ripple-color="dark">
+                                            Check Out
+                                        </button>
+                                        </a>
+                                    }else{
+                                        <button disabled type="button" class="btn btn-dark btn-block btn-lg"
+                                            data-mdb-ripple-color="dark">
+                                            Check Out
+                                        </button>
+                                    }
+                                  
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
