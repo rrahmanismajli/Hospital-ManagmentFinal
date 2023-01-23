@@ -90,7 +90,7 @@
                 </a>
                 <a asp-area="Admin" asp-controller="Patients" asp-action="Index" class="nav-link ps-2 cursor-pointer">
                 <li class="sidebar-list-item">
-                    <span class="material-icons-outlined">groups</span> Patients
+                    <span class="material-icons-outlined">groups</span> Users
                 </li>
                 </a>
                 <a asp-area="Admin" asp-controller="Appointments" asp-action="Index" class="nav-link ps-2 cursor-pointer">
@@ -98,9 +98,19 @@
                     <span class="material-symbols-outlined">clinical_notes</span> Appointments
                 </li>
                 </a>
-                 <a asp-area="Admin" asp-controller="Doctors" asp-action="Index" class="nav-link ps-2 cursor-pointer">
+                <a asp-area="Admin" asp-controller="Departments" asp-action="Index" class="nav-link ps-2 cursor-pointer">
                 <li class="sidebar-list-item">
-                    <span class="material-icons-outlined">poll</span> Users
+                    <span class="material-icons-outlined">inventory_2</span> Departments
+                </li>
+                </a>
+                <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="nav-link ps-2 cursor-pointer">
+                <li class="sidebar-list-item">
+                    <span class="material-icons-outlined">inventory_2</span> Manage Orders
+                </li>
+                </a>
+                <a asp-area="Admin" asp-controller="PharmacyProducts" asp-action="Index" class="nav-link ps-2 cursor-pointer">
+                <li class="sidebar-list-item">
+                    <span class="material-icons-outlined">poll</span> Products
                 </li>
                 </a>
                 @if (SignInManager.IsSignedIn(User))

@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hospital_Managment.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class DepartmentsController : Controller
     {
         private readonly ApplicationDbContext _context;

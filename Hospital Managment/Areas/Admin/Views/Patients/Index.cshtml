@@ -7,7 +7,7 @@
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">Patient List</h2>
+            <h2 class="text-primary">Users List</h2>
         </div>
         <div class="col-6 text-end">
             <a asp-controller="Patient" asp-action="Create" class="btn btn-primary">
@@ -21,16 +21,16 @@
     <table id="tblData" class=" table-bordered table-white" style="width:100%">
         <thead class="thead-light">
             <tr>
-                <th> @Html.DisplayNameFor(model => model.FirstName)</th>
-                <th> @Html.DisplayNameFor(model => model.LastName)</th>
-                <th> @Html.DisplayNameFor(model => model.DateOfBirth)</th>
-                <th> @Html.DisplayNameFor(model => model.Gender)</th>
-                <th> @Html.DisplayNameFor(model => model.PhoneNumber)</th>
-                <th> @Html.DisplayNameFor(model => model.Email)</th>
-                <th> @Html.DisplayNameFor(model => model.Address)</th>
-                <th> @Html.DisplayNameFor(model => model.InsuranceProvider)</th>
-                <th> @Html.DisplayNameFor(model => model.PrimaryCarePhysician)</th>
-                <th>Action</th>
+                <th> Full Name</th>
+                <th>Street Adress</th>
+                <th> City</th>
+                <th> State</th>
+                <th> Postal Code</th>
+                <th> User Image</th>
+                <th> Email</th>
+                <th> Phone Number</th>
+                <th>Actions</th>
+                
 
 
             </tr>
@@ -39,7 +39,7 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/patient.js"></script>
+    <script src="~/js/users.js"></script>
 }
 
                 

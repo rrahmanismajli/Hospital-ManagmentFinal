@@ -13,6 +13,7 @@ namespace Hospital_Managment.Areas.Dashboard.Controllers
 {
 
     [Area("Dashboard")]
+    [Authorize(Roles ="Admin")]
     public class DashboardController : Controller
 
     {

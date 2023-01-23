@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<Hospital_Managment.Models.PharmacyProduct>
 
 @{
+    Layout = "_dashboard";
+
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Product List</h1>
+<h2 class="text-danger">Total Products:@Model.ToList().Count()</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -49,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.BestBeforeDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
+                    <img width="50px" height="50px" src="@Html.DisplayFor(modelItem => item.ImagePath)">
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.price)
@@ -64,11 +67,11 @@
                 @Html.DisplayFor(modelItem => item.shipped)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OriginFlagUrl)
+                    <img width="50px" height="50px" src="@Html.DisplayFor(modelItem => item.OriginFlagUrl)">
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.productId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.productId">Details</a> |
+               
                 <a asp-action="Delete" asp-route-id="@item.productId">Delete</a>
             </td>
         </tr>

@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hospital_Managment.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class PharmacyProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,10 +22,10 @@ namespace Hospital_Managment.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/PharmacyProducts
+        //// GET: Admin/PharmacyProducts
         public async Task<IActionResult> Index()
         {
-              return View(await _context.PharmacyProducts.ToListAsync());
+            return View(await _context.PharmacyProducts.ToListAsync());
         }
 
         // GET: Admin/PharmacyProducts/Details/5

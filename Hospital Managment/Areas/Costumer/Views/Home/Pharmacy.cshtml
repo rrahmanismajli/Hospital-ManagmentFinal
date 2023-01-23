@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Hospital_Managment.Models.PharmacyProduct>
+﻿@*@model IEnumerable<Hospital_Managment.Models.PharmacyProduct>*@
+@model Tuple<IEnumerable<PharmacyProduct>, Pagination>
 
 @{
 
@@ -10,7 +11,18 @@
 <div class="container mt-5 mb-5">
     <div class="d-flex justify-content-center row">
         <div class="col-md-10">
-            @foreach(var item in Model){
+            <label for="page-size-select">Items per page:</label>
+            <select id="page-size-select" name="page-size-select">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+            </select>
+            <form  asp-action="Pharmacy">
+                <input type="text" name="searchTerm" placeholder="Enter product name">
+                <input type="submit" value="Search by Name">
+            </form>
+            
+            @foreach(var item in Model.Item1){
                 @if (item.quantity>0 && item.BestBeforeDate>DateTime.Now)
                 {
                     <div class="row p-2 bg-white border rounded">
@@ -33,10 +45,28 @@
                           
                         </div>
                     </div>
+   
                 }
          
 
             }
+            <div class="pagination-section pagination">
+                <a href="?page=1&pageSize=@Model.Item2.PageSize" class="@(Model.Item2.Page == 1 ? "disabled" : "") btn">First</a>
+                <a href="?page=@(Model.Item2.Page - 1)&pageSize=@Model.Item2.PageSize" class="@(Model.Item2.Page == 1 ? "disabled" : "") btn">Previous</a>
+                <span>Page @Model.Item2.Page of @Model.Item2.TotalPages</span>
+                <a href="?page=@(Model.Item2.Page + 1)&pageSize=@Model.Item2.PageSize" class="@(Model.Item2.Page == Model.Item2.TotalPages ? "disabled" : "") btn">Next</a>
+                <a href="?page=@Model.Item2.TotalPages&pageSize=@Model.Item2.PageSize" class="@(Model.Item2.Page == Model.Item2.TotalPages ? "disabled" : "") btn">Last</a>
+                
+
+            </div>
         </div>
     </div>
 </div>
+
+
+    <script>
+        document.getElementById("page-size-select").addEventListener("change", function () {
+            window.location.href = '?page=1&pageSize=' + this.value;
+        });
+        document.getElementById("page-size-select").value = "@Model.Item2.PageSize"
+    </script>

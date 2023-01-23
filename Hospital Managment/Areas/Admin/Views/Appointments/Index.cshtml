@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<Hospital_Managment.Models.Appointment>
 
 @{
+    Layout = "_dashboard";
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Appointment List</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -69,4 +70,3 @@
 }
     </tbody>
 </table>
-<partial name="_LoginPartial" />

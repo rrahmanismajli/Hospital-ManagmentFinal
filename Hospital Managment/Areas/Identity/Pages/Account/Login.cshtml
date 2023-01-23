@@ -1,4 +1,5 @@
 ﻿@page
+@using Hospital_Managment.Utilities
 @model LoginModel
 
 @{
@@ -46,8 +47,11 @@
 
 
                         <div>
-                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary" asp-route-returnUrl="@Url.Action("Index", "Dashboard", new { area = "Dashboard" })">Log in</button>
+                       
+                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Costumer" })">Log in</button>
+                       
                         </div>
+
                         <div>
                             <p>
                                 <a class="text-body" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>

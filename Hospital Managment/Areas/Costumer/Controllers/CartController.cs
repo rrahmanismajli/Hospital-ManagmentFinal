@@ -185,6 +185,7 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             {
                 orderHeader.OrderStatus = RolesStrings.StatusApproved;
                 orderHeader.PaymentStatus = RolesStrings.PaymentStatusApproved;
+                orderHeader.PaymentDate= DateTime.Now;
                 _context.SaveChanges();
             }
             List<ShoppingCart> shoppingCarts = _context.ShoppingCarts.Where(c => c.UserId == orderHeader.ApplicationUserId).ToList();

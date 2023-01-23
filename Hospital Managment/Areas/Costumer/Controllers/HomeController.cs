@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -20,11 +21,31 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             _logger = logger;
             _context = context;
         }
-        public IActionResult Pharmacy()
+        public IActionResult Pharmacy(Pagination pagination,string searchTerm)
         {
-            var products = _context.PharmacyProducts.ToList();
-            return View(products);
+            
+            
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                 var products = _context.PharmacyProducts.Where(p => p.productName.Contains(searchTerm));
+                pagination.CalculateTotalPages(products.Count());
+                pagination.CalculateStartItem();
+                var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+            }
+            else
+            {
+                var products = _context.PharmacyProducts.ToList();
+                pagination.CalculateTotalPages(products.Count());
+                pagination.CalculateStartItem();
+                var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+            }
+            
+            
         }
+      
+     
         public async Task<IActionResult> Details(int? productId)
         {
             ShoppingCart cartObj = new()

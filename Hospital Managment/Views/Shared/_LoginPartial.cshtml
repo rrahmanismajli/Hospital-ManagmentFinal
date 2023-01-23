@@ -38,9 +38,24 @@
                     
                     </a>
                     <div class="dropdown-menu">
+                       
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
-                    <a class="dropdown-item" asp-area="Dashboard" asp-controller="Dashboard" asp-action="Index" title="Manage">Dashboard</a>
-                      
+                        @{
+                            if (User.IsInRole(RolesStrings.Role_User_Customer))
+                            {
+                               <a class="dropdown-item" asp-area="Costumer" asp-controller="Orders" asp-action="Index" title="Manage">Manage Orders</a>
+                            }
+                        }
+                    
+
+                        @{
+                            var roles = await UserManager.GetRolesAsync(user);
+                            var role = roles.First();
+                            if (role == "Admin")
+                            {
+                            <a class="dropdown-item" asp-area="Dashboard" asp-controller="Dashboard" asp-action="Index" title="Manage">Dashboard</a>
+                            }
+                        }
                   
                         <div class="dropdown-divider"></div>
                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

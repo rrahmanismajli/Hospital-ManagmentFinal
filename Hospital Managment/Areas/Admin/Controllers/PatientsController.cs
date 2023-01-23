@@ -8,17 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
 using Hospital_Managment.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hospital_Managment.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class PatientsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public PatientsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public PatientsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Patients
@@ -68,14 +72,14 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         }
 
         // GET: Patients/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string? id)
         {
-            if (id == null || _context.Patients == null)
+            if (id == null || _context.ApplicationUsers == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients.FindAsync(id);
+            var patient = await _context.ApplicationUsers.FindAsync(id);
             if (patient == null)
             {
                 return NotFound();
@@ -88,9 +92,9 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateOfBirth,Gender,PhoneNumber,Email,Address,InsuranceProvider,PrimaryCarePhysician")] Patient patient)
+        public async Task<IActionResult> Edit(string id,ApplicationUser patient)
         {
-            if (id != patient.Id)
+            if (id.ToString()!=patient.Id)
             {
                 return NotFound();
             }
@@ -121,13 +125,13 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // GET: Patients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Patients == null)
+            if (id == null || _context.ApplicationUsers == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var patient = await _context.ApplicationUsers
+                .FirstOrDefaultAsync(m => m.Id == id.ToString());
             if (patient == null)
             {
                 return NotFound();
@@ -155,9 +159,9 @@ namespace Hospital_Managment.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PatientExists(int id)
+        private bool PatientExists(string id)
         {
-            return _context.Patients.Any(e => e.Id == id);
+            return _context.ApplicationUsers.Any(e => e.Id == id);
         }
         #region API CAllS
         [HttpGet]
@@ -170,8 +174,9 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         }
         public IActionResult GetAllUsers()
         {
-
+            
             var patients = _context.ApplicationUsers.ToList();
+          
             return Json(new { data = patients });
 
         }
