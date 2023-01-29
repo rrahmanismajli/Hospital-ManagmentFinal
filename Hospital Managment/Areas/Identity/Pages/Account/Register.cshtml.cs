@@ -25,6 +25,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hospital_Managment.Areas.Identity.Pages.Account
 {
+  
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -59,6 +60,8 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
+        [TempData]
+        public string StatusMessage { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -124,25 +127,31 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!_roleManager.RoleExistsAsync(RolesStrings.Role_User_Admin).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(RolesStrings.Role_User_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(RolesStrings.Role_User_Staff)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(RolesStrings.Role_User_Customer)).GetAwaiter().GetResult();
-            }
-            
-            ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            Input = new InputModel() {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+          
+                if (!_roleManager.RoleExistsAsync(RolesStrings.Role_User_Admin).GetAwaiter().GetResult())
                 {
-                    Text = i,
-                    Value=i
-                })
-            };
+                    _roleManager.CreateAsync(new IdentityRole(RolesStrings.Role_User_Admin)).GetAwaiter().GetResult();
+                    _roleManager.CreateAsync(new IdentityRole(RolesStrings.Role_User_Staff)).GetAwaiter().GetResult();
+                    _roleManager.CreateAsync(new IdentityRole(RolesStrings.Role_User_Customer)).GetAwaiter().GetResult();
+                }
+
+                ReturnUrl = returnUrl;
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                Input = new InputModel()
+                {
+                    RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                    {
+                        Text = i,
+                        Value = i
+                    })
+                };
+            if (_signInManager.IsSignedIn(User))
+            {
+                StatusMessage = "You Are Already Registered";
+            }
 
         }
-
+        
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");

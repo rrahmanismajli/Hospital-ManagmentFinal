@@ -1,6 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@using Hospital_Managment.Utilities
 @inject SignInManager<Hospital_Managment.Models.ApplicationUser> SignInManager
 @inject UserManager<Hospital_Managment.Models.ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
  
 
 <!DOCTYPE html>
@@ -57,13 +60,16 @@
                         <li class="nav-item mx-2">
                             <a asp-area="Costumer" asp-controller="ContactUs" asp-action="Create" class="btn mb-0 cursor-pointer bg-gradient-info">Contact Us</a>
                         </li>
+                  
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item ">
+                                    <a class="nav-link" asp-area="Costumer" asp-controller="Cart" asp-action="Index">
+                                        @await Component.InvokeAsync("ShoppingCart")
+                                    </a>
+                                </li>
+                            }
                         
-             @if (SignInManager.IsSignedIn(User))
-                {
-                        <li class="nav-item ">
-                                <a class="nav-link" asp-area="Costumer" asp-controller="Cart" asp-action="Index"> <i class="fas fa-shopping-cart"></i></a>
-                        </li>
-                }
                         <partial name="_LoginPartial" />
                     </ul>
                 </div>

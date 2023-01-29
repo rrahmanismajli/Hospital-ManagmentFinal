@@ -5,6 +5,7 @@ using Hospital_Managment.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -99,6 +100,7 @@ namespace Hospital_Managment.Areas.Costumer.Controllers {
 
 
         }
+        
         #region API CAllS
         [HttpGet]
         public IActionResult GetAll( string status)

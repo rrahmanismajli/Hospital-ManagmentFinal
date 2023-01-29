@@ -1,5 +1,6 @@
 ﻿using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Hospital_Managment.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -74,16 +75,17 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
            {
 
                 _context.ShoppingCarts.Add(shoppingCart);
-                
-                //HttpContext.Session.SetInt32(SD.SessionCart,
-                //    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).ToList().Count);
+                _context.SaveChanges();
+                HttpContext.Session.SetInt32(RolesStrings.SessionCart,
+                    _context.ShoppingCarts.Where(u => u.UserId == claim.Value).ToList().Count);
             }
             else
             {
                 cartfromDb.Count++;
-              
+                _context.SaveChanges();
+
             }
-            _context.SaveChanges();
+           
 
 
             return RedirectToAction(nameof(Index));

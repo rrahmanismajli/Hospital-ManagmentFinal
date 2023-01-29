@@ -3,10 +3,13 @@ using Hospital_Managment.Models;
 using Hospital_Managment.Utilities;
 using Hospital_Managment.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Checkout;
 using System.Security.Claims;
+using System.IO;
+using RazorLight;
 
 namespace Hospital_Managment.Areas.Costumer.Controllers
 {
@@ -16,9 +19,11 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
     {
         private readonly ApplicationDbContext _context;
         public ShoppingCartVM ShoppingCartVM { get; set; }
-        public CartController(ApplicationDbContext context)
+        private readonly IEmailSender _emailSender;
+        public CartController(ApplicationDbContext context,IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -58,6 +63,9 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             if (cart.Count<=0)
             {
                 _context.ShoppingCarts.Remove(cart);
+                var count = _context.ShoppingCarts.Where(u => u.UserId == cart.UserId).ToList().Count() - 1;
+                HttpContext.Session.SetInt32(RolesStrings.SessionCart,
+                       count);
 
             }
             _context.SaveChanges();
@@ -68,6 +76,9 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             var cart = _context.ShoppingCarts.FirstOrDefault(u => u.Id == cartId);
             _context.ShoppingCarts.Remove(cart);
             _context.SaveChanges();
+            var count = _context.ShoppingCarts.Where(u => u.UserId == cart.UserId).ToList().Count() ;
+            HttpContext.Session.SetInt32(RolesStrings.SessionCart,
+                   count);
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Summary()
@@ -165,6 +176,7 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
                 options.LineItems.Add(sessionLineItem);
 
             }
+          
             var service = new SessionService();
             Session session = service.Create(options);
             ShoppingCartVM.OrderHeader.SessionId = session.Id;
@@ -178,16 +190,28 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
         }
         public IActionResult OrderConfirmation(int id)
         {
-            OrderHeader orderHeader = _context.OrderHeader.FirstOrDefault(u => u.Id == id);
+
+            OrderHeader orderHeader = _context.OrderHeader.Include(u=>u.ApplicationUser).FirstOrDefault(u => u.Id == id);
             var service = new SessionService();
             Session session = service.Get(orderHeader.SessionId);
             if(session.PaymentStatus.ToLower() == "paid")
             {
                 orderHeader.OrderStatus = RolesStrings.StatusApproved;
                 orderHeader.PaymentStatus = RolesStrings.PaymentStatusApproved;
+                orderHeader.PaymentIntentId = session.PaymentIntentId;
                 orderHeader.PaymentDate= DateTime.Now;
                 _context.SaveChanges();
             }
+            //var engine = new RazorLightEngineBuilder()
+            //    .UseFileSystemProject("C:\\Users\\rrahm\\OneDrive\\Desktop\\Hyrje ne Web Programing(MVC)\\Final\\Hospital Managment\\Hospital Managment\\Areas\\Costumer\\Views\\Cart\\EmailTemplate.cshtml")
+            //    .UseMemoryCachingProvider()
+            //    .Build();
+            //string htmlMessage =  engine.CompileRenderAsync("EmailTemplate.cshtml", new { Order = orderHeader }).ToString();
+
+            //string html = Razor.Parse(System.IO.File.ReadAllText("Areas/Costumer/Views/Cart/EmailTemplate.cshtml"));
+            //string template = System.IO.File.ReadAllText("Areas/Costumer/Views/Cart/EmailTemplate.cshtml");
+            //string result = Engine.RunCompile.RunCompile(template,"templateKey", null, new { OrderHeader = orderHeader });
+            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - Pharmacy", "<p>Hello</p>");
             List<ShoppingCart> shoppingCarts = _context.ShoppingCarts.Where(c => c.UserId == orderHeader.ApplicationUserId).ToList();
             _context.ShoppingCarts.RemoveRange(shoppingCarts);
             _context.SaveChanges();

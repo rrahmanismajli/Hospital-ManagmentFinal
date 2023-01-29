@@ -5,6 +5,7 @@ using Hospital_Managment.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -100,6 +101,38 @@ namespace Hospital_Managment.Areas.Admin.Controllers
 
 
       
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CancelOrder()
+        {
+            var orderHeader = _context.OrderHeader.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+            if (orderHeader.PaymentStatus == RolesStrings.PaymentStatusApproved)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Reason = RefundReasons.RequestedByCustomer,
+                    PaymentIntent=orderHeader.PaymentIntentId,
+                };
+                var service = new RefundService();
+                Refund refund = service.Create(options);
+                orderHeader.OrderStatus = RolesStrings.StatusCancelled;
+                orderHeader.PaymentStatus = RolesStrings.StatusRefunded;
+            }
+            else
+            {
+                orderHeader.OrderStatus = RolesStrings.StatusCancelled;
+                orderHeader.PaymentStatus = RolesStrings.StatusCancelled;
+            }
+
+            _context.SaveChanges();
+            TempData["Success"] = "Order Shipped Successfully.";
+            return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
+
+
+
+
+
         }
         #region API CAllS
         [HttpGet]

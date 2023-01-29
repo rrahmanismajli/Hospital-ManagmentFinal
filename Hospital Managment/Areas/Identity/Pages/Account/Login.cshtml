@@ -1,12 +1,16 @@
 ﻿@page
 @using Hospital_Managment.Utilities
+@using Microsoft.AspNetCore.Identity
+@using Hospital_Managment.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @model LoginModel
 
 @{
     ViewData["Title"] = "Log in";
 }
 
-
+@if(!SignInManager.IsSignedIn(User)){
     <section class="vh-100">
         <div class="container-fluid h-custom">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -72,3 +76,7 @@
     @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+                            }else{
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+                            }
