@@ -1,0 +1,65 @@
+﻿@model Hospital_Managment.Models.Appointments
+
+@{
+    ViewData["Title"] = "Appointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Book a</h1>
+
+<h4>Appointment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Created">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label  class="control-label">Write Your Full Name</label>
+                <input asp-for="FullName" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Date of Appointment</label>
+                <input asp-for="DateTimeOfAppointment" class="form-control" />
+              
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Your Email </label>
+                <input asp-for="email" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Your Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Your Adress</label>
+                <input asp-for="fullAdress" class="form-control" />
+               
+            </div>
+            <div class="form-outline">
+                <textarea asp-for="ReasonOfVisiting" class="form-control" id="textAreaExample1" rows="4"></textarea>
+                <label class="form-label" for="textAreaExample">Reason Of Visit</label>
+                
+            </div>
+         
+            <div class="form-group">
+                <label  class="control-label">Choose a Doctor</label>
+                <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Book Now!" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Appointment List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

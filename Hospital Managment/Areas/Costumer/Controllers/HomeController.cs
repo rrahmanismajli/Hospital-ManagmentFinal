@@ -2,6 +2,7 @@
 using Hospital_Managment.Models;
 using Hospital_Managment.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,13 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context,IEmailSender emailSender)
         {
             _logger = logger;
             _context = context;
+            _emailSender=emailSender;
         }
         public IActionResult Pharmacy(Pagination pagination,string searchTerm)
         {
@@ -28,6 +31,7 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             
             if (!string.IsNullOrEmpty(searchTerm))
             {
+               
                  var products = _context.PharmacyProducts.Where(p => p.productName.Contains(searchTerm));
                 pagination.CalculateTotalPages(products.Count());
                 pagination.CalculateStartItem();
@@ -36,11 +40,13 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             }
             else
             {
-                var products = _context.PharmacyProducts.ToList();
-                pagination.CalculateTotalPages(products.Count());
-                pagination.CalculateStartItem();
-                var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
-                return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+                    var products = _context.PharmacyProducts.ToList();
+                    pagination.CalculateTotalPages(products.Count());
+                    pagination.CalculateStartItem();
+                    var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                    return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+               
+              
             }
             
             
@@ -92,7 +98,17 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
         }
         public IActionResult Index()
         {
+         
             return View();
+        }
+        [HttpPost]
+        [ActionName("Index")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Indexed()
+        {
+            var emailer = Request.Form["Emailsub"];
+            await _emailSender.SendEmailAsync(emailer, $"Thanks for Subscribing", "<p>You have been subscribed</p>");
+            return View(nameof(Index));
         }
 
         public IActionResult Privacy()

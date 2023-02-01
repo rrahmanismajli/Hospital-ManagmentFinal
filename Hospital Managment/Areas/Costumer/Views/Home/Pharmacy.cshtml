@@ -17,6 +17,10 @@
                 <option value="10">10</option>
                 <option value="20">20</option>
             </select>
+          @*  <select id="sortby" name="sortby" onchange="sortProducts()">
+                <option value="0">Sort by Price: Low to High</option>
+                <option value="1">Sort by Price: High to Low</option>
+            </select>*@
             <form  asp-action="Pharmacy">
                 <input type="text" name="searchTerm" placeholder="Enter product name">
                 <input type="submit" value="Search by Name">
@@ -69,4 +73,15 @@
             window.location.href = '?page=1&pageSize=' + this.value;
         });
         document.getElementById("page-size-select").value = "@Model.Item2.PageSize"
+
     </script>
+@*<script>
+    function sortProducts() {
+        var sortby = $("#sortby").val();
+        var url = "/Home/Pharmacy?sortby=" + sortby;
+        window.location.href = url;
+    }
+</script>*@
+
+
+

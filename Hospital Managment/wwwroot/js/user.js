@@ -1,12 +1,21 @@
 ﻿var dataTable;
 
 $(document).ready(function () {
-    loadDataTable();
+    var url = window.location.search;
+    if (url.includes("administrators")) {
+        loadDataTable("administrators");
+    } else {
+        if (url.includes("customers")) {
+            loadDataTable("customers");
+        } else {
+            loadDataTable();
+        }
+    }
 });
-function loadDataTable() {
+function loadDataTable(status) {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "Patients/GetAllUsers/"
+            "url": "Patients/GetAllUsers?status="+status
         },
         "columns": [
             {
@@ -18,13 +27,9 @@ function loadDataTable() {
             {
                 "data": "city", "width": "15%"
             },
-            {
-                "data": "state", "width": "15%"
-            },
            
-            {
-                "data": "postalCode", "width": "15%"
-            },
+           
+           
             {
                 "data": "imageUrl",
                 "render": function (data) {
@@ -36,6 +41,9 @@ function loadDataTable() {
 
 
                "width": "15%"
+            },
+            {
+                "data": "role", "width": "15%"
             },
             {
                 "data": "email", "width": "15%"

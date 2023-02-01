@@ -26,7 +26,7 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Appointments.Include(a => a.Doctor).Include(a => a.Nurse).Include(a => a.Patient).Include(a => a.Receptionist);
+            var applicationDbContext = _context.appointmentsList.Include(a => a.Doctor).Include(a => a.ApplicationUser);
             return View(await applicationDbContext.ToListAsync());
         }
 

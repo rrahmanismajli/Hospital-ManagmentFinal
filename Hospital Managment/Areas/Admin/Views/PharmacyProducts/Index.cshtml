@@ -48,9 +48,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.productName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BestBeforeDate)
-            </td>
+                @{
+                    if (item.BestBeforeDate <= DateTime.Now)
+                    {
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BestBeforeDate)<span class="text-danger">Expired</span>
+                </td>
+                }else{
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BestBeforeDate)<span class="text-primary">Not Expired</span>
+                        </td>
+                }
+            }
             <td>
                     <img width="50px" height="50px" src="@Html.DisplayFor(modelItem => item.ImagePath)">
             </td>

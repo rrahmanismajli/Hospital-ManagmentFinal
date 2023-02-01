@@ -1,59 +1,28 @@
-﻿@model IEnumerable<Hospital_Managment.Models.ContactUs>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Thank You";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<h2 style="text-align: center; margin-top: 100px;">We received your message!</h2>
+
+<p style="text-align: center; margin-bottom: 50px;">Thank you for reaching out to us. We will get back to you soon.</p>
+
+<p id="countdown" style="text-align: center; font-size: 20px;"></p>
+
+<script>
+    var count = 5;
+    setInterval(function () {
+        count--;
+        document.getElementById("countdown").innerHTML = "Redirecting to home in " + count + " seconds...";
+        if (count === 0) {
+            window.location.href = '/';
+        }
+    }, 1000);
+</script>
+
+<style>
+    body {
+        background-color: #f2f2f2;
+    }
+</style>

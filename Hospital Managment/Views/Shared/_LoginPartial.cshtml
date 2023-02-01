@@ -9,44 +9,48 @@
     ViewData["Title"] = "Profile";
 }
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
+    @if (SignInManager.IsSignedIn(User))
+    {
 
 
-       
+
         <li class="nav-item">
 
-            
-                @{
-                
 
-                    var user = await UserManager.GetUserAsync(User);
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                      
-                    @if(user.ImageUrl == null){
+            @{
+
+
+                var user = await UserManager.GetUserAsync(User);
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+
+                        @if (user.ImageUrl == null)
+                        {
                         <img alt="avatar"
                      class="rounded-circle img-fluid" style="width: 30px;" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" />
                         <i class="fas fa-angle-right"></i>
                             @user.Name
-                    }else{
-                    <img alt="avatar"
+                        }
+                        else
+                        {
+                        <img alt="avatar"
                      class="rounded-circle img-fluid" style="width: 30px;" src="@user.ImageUrl" />
 
                         <i class="fas fa-angle-right"></i> @user.Name
-                    }
-                    
-                    </a>
-                    <div class="dropdown-menu">
-                       
-                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+                        }
+
+                </a>
+                <div class="dropdown-menu">
+
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
                         @{
                             if (User.IsInRole(RolesStrings.Role_User_Customer))
                             {
-                               <a class="dropdown-item" asp-area="Costumer" asp-controller="Orders" asp-action="Index" title="Manage">Manage Orders</a>
+                            <a class="dropdown-item" asp-area="Costumer" asp-controller="Orders" asp-action="Index" title="Manage">Manage Orders</a>
+                            <a class="dropdown-item" asp-area="Costumer" asp-controller="Appointments" asp-action="Index" title="Manage">Manage Appointmets</a>
                             }
                         }
-                    
+
 
                         @{
                             var roles = await UserManager.GetRolesAsync(user);
@@ -56,26 +60,26 @@
                             <a class="dropdown-item" asp-area="Dashboard" asp-controller="Dashboard" asp-action="Index" title="Manage">Dashboard</a>
                             }
                         }
-                  
-                        <div class="dropdown-divider"></div>
-                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button type="submit" class="nav-link btn align-items-center btn-link btn-danger text-dark">Logout</button>
-                        </form>
-                    </div>
-                </li>
-                    
-   
-                }                 
-    </li>
-  
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+
+                    <div class="dropdown-divider"></div>
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="nav-link btn align-items-center btn-link btn-danger text-dark">Logout</button>
+                    </form>
+                </div>
+            </li>
+
+
+            }
+        </li>
+
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>

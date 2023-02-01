@@ -36,6 +36,7 @@ namespace Hospital_Managment.Data
         public DbSet<ShoppingCart>  ShoppingCarts{ get; set; }
         public DbSet<OrderHeader>  OrderHeader{ get; set; }
         public DbSet<OrderDetails>  OrderDetail{ get; set; }
+        public DbSet<Appointments> appointmentsList { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -132,6 +133,9 @@ namespace Hospital_Managment.Data
                    entity.HasKey(r => new { r.UserId, r.LoginProvider,r.Name });
                });
         }
+
+
+     
 
     }
 }

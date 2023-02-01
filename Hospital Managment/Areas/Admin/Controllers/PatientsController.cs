@@ -10,6 +10,7 @@ using Hospital_Managment.Models;
 using Hospital_Managment.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Hospital_Managment.Utilities;
 
 namespace Hospital_Managment.Areas.Admin.Controllers
 {
@@ -172,12 +173,49 @@ namespace Hospital_Managment.Areas.Admin.Controllers
             return Json(new { data = patients });
 
         }
-        public IActionResult GetAllUsers()
+        public IActionResult GetAllUsers(string status)
         {
-            
+
             var patients = _context.ApplicationUsers.ToList();
-          
-            return Json(new { data = patients });
+            var results = new List<Object>();
+
+            var administrators = _userManager.GetUsersInRoleAsync(RolesStrings.Role_User_Admin).Result.ToList();
+            var customers = _userManager.GetUsersInRoleAsync(RolesStrings.Role_User_Customer).Result.ToList();
+            switch (status) {
+                case "administrators":
+                    foreach (var item in administrators)
+                    {
+                        var roles = _userManager.GetRolesAsync(item);
+                        var role = roles.Result.Last();
+                        results.Add(new { item.Id, item.Name, item.StreetAdress, item.City, item.ImageUrl, role, item.Email, item.PhoneNumber });
+
+
+                    }
+                    break;
+                case "customers":
+                    foreach (var item in customers)
+                    {
+                        var roles = _userManager.GetRolesAsync(item);
+                        var role = roles.Result.Last();
+                        results.Add(new { item.Id, item.Name, item.StreetAdress, item.City, item.ImageUrl, role, item.Email, item.PhoneNumber });
+
+
+                    }
+                    break;
+                default:
+                    foreach (var item in patients)
+            {
+                var roles = _userManager.GetRolesAsync(item);
+                var role = roles.Result.Last();
+                results.Add(new { item.Id, item.Name, item.StreetAdress, item.City, item.ImageUrl, role, item.Email, item.PhoneNumber });
+
+
+            }break;
+
+        }
+
+
+            return Json(new { data = results });
 
         }
 

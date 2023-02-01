@@ -3,15 +3,48 @@
 @{
     Layout = "_dashboard";
     ViewData["Title"] = "Index";
+}@{
+    var status = Context.Request.Query["status"];
+    var administrators = "text-primary";
+    var customers = "text-primary";
+    var all = "text-primary";
+
+    switch (status)
+    {
+        case "administrators":
+            administrators = "active text-danger";
+            break;
+        case "customers":
+            customers = "active text-danger";
+            break;
+        default:
+            all = "active text-wthie";
+            break;
+    }
 }
 <div class="container p-3">
     <div class="row pt-4">
-        <div class="col-6">
+        <div class="col-4">
             <h2 class="text-primary">Users List</h2>
         </div>
-        <div class="col-6 text-end">
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Create a new User</a>
+        <div class="p-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="text-decoration:none;" asp-controller="Patients" asp-action="Index" asp-route-status="administrators">
+                <li class="list-group-item @administrators">Administrators</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Patients" asp-action="Index" asp-route-status="customers">
+                <li class="list-group-item @customers">Customers</li>
+               </a>
+                <a style="text-decoration:none;" asp-controller="Patients" asp-action="Index" asp-route-status="all">
+                <li class="list-group-item @all">All</li>
+                </a>
+
+            </ul>
+
+        </div>
+        <div class="col-12 text-end ">
+            <li class="nav-item ">
+                <a class="nav-link text-danger" asp-area="Identity" asp-page="/Account/Register">Create a new User</a>
             </li>
 
         </div>
@@ -24,22 +57,18 @@
                 <th> Full Name</th>
                 <th>Street Adress</th>
                 <th> City</th>
-                <th> State</th>
-                <th> Postal Code</th>
                 <th> User Image</th>
+                <th> Role</th>
                 <th> Email</th>
                 <th> Phone Number</th>
                 <th>Actions</th>
-                
-
-
             </tr>
         </thead>
     </table>
 </div>
 
 @section Scripts{
-    <script src="~/js/users.js"></script>
+  <script src="~/js/user.js"></script>
 }
 
                 

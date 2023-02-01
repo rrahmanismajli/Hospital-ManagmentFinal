@@ -3,7 +3,7 @@
 
 @{
     Layout = "_dashboard";
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Appointment";
      var Doctors = (List<SelectListItem>)ViewBag.Doctor;
     var Nurses = (List<SelectListItem>)ViewBag.Nurse;
       var Receptionists = (List<SelectListItem>)ViewBag.Receptionist;
@@ -54,14 +54,14 @@
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Book Now" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Your Appointment List</a>
 </div>
 
 @section Scripts {

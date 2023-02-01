@@ -367,21 +367,26 @@
                 <p class="mb-0">The latest news, articles and resources sent to your inbox weekely.</p>
             </div>
             <div class="col-lg-5 ms-auto text-end mt-4 mt-lg-0">
+                <form asp-action="Index">
                 <div class="row">
                     <div class="col-lg-8 col-md-4 col-7">
                         <div class="form-group mb-0">
+                           
                             <div class="input-group">
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                                    <input class="form-control" placeholder="Your Email" type="email">
+                                    <input id="emailsub" name="Emailsub" class="form-control" placeholder="Your Email" type="email">
                                 </div>
                             </div>
+                            
                         </div>
+                      
                     </div>
                     <div class="col-lg-4 col-md-4 col-5 text-start">
-                        <button type="button" class="btn mb-0 h-100 btn-dark">Subscribe</button>
+                            <input type="submit" value="Subscribe" class="btn btn-primary" />
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>

@@ -33,7 +33,7 @@ namespace Hospital_Managment.Areas.Dashboard.Controllers
             ViewBag.TotalDoctors = _context.Doctors.Count();
             var user = _userManager.GetUsersInRoleAsync("Customer");
             ViewBag.TotalPatients = user.Result.Count();
-            ViewBag.TotalAppointments = _context.Appointments.Count();
+            ViewBag.TotalAppointments = _context.appointmentsList.Count();
             ViewBag.TotalDepartments = _context.Departments.Count();
             return View("~/Areas/Admin/Views/Dashboard/Index.cshtml");
 
