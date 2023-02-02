@@ -17,9 +17,11 @@ namespace Hospital_Managment.Data
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<InsuranceCompany> InsuranceCompanies { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentFinal> AppointmentFinal { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<TestResult> TestResults { get; set; }
         public DbSet<Treatment> Treatments { get; set; }
+        public DbSet<Takimi> Takimi{ get; set; }
         public DbSet<Hospitalization> Hospitalizations { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<MedicalEquipment> MedicalEquipment { get; set; }

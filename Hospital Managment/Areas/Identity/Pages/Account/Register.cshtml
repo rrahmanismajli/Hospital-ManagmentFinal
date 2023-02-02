@@ -109,15 +109,15 @@
                                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                             </div>
 
-                            @if (User.IsInRole(RolesStrings.Role_User_Admin))
-                            {
+                          
+                           
                                 <div class="form-outline mb-4">
 
                                     <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
                                         <option disabled selected>-Select Role-</option>
                                     </select>
                                 </div>
-                            }
+                       
                             <!-- <div id="Input_Prof" style="display:none" class="form-floating py-2">
                             <select id="Input_Profession" class="form-select">
                             <option disabled selected>-Select Profession-</option>

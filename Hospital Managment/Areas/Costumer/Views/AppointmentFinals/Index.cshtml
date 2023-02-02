@@ -1,0 +1,37 @@
+﻿
+@{
+    
+    Layout = "_Layout";
+    ViewData["Title"] = "Index";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Order List</h2>
+        </div>
+
+    </div>
+    <br /><br />
+
+    <table id="tblData" class=" table-bordered table-white" style="width:100%">
+        <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email </th>
+                <th>ReasonForVisit </th>
+                <th> Notes</th>
+                <th></th>
+       
+
+
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/js/appointment.js"></script>
+}
