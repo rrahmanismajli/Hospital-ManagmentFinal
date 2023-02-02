@@ -124,7 +124,7 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         }
 
         // GET: Patients/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null || _context.ApplicationUsers == null)
             {
@@ -144,16 +144,16 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // POST: Patients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.Patients == null)
+            if (_context.ApplicationUsers == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Patients'  is null.");
             }
-            var patient = await _context.Patients.FindAsync(id);
+            var patient = await _context.ApplicationUsers.FindAsync(id);
             if (patient != null)
             {
-                _context.Patients.Remove(patient);
+                _context.ApplicationUsers.Remove(patient);
             }
 
             await _context.SaveChangesAsync();
