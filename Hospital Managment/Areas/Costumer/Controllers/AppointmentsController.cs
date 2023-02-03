@@ -29,6 +29,8 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
         // GET: Costumer/Appointments
         public async Task<IActionResult> Index()
         {
+            ViewBag.OrderCount = _context.OrderHeader.Count();
+            ViewBag.AppointmentCount = _context.appointmentsList.Count();
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var applicationDbContext = _context.appointmentsList.Where(u => u.UserId == claim.Value).Include(u => u.ApplicationUser).Include(a => a.Doctor).ToList();
@@ -68,6 +70,7 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             appointments.PhoneNumber = thisUser.PhoneNumber;
             appointments.fullAdress = thisUser.StreetAdress + " " + thisUser.City + " " + thisUser.State + " " + thisUser.PostalCode;
             appointments.DateTimeOfAppointment = DateTime.Now;
+   
             var doctorList = _context.Doctors.Select(d => new SelectListItem
             {
                 Value = d.DoctorId.ToString(),

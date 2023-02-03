@@ -1,4 +1,4 @@
-﻿@model Hospital_Managment.Models.Doctor
+﻿@model Doctor
 
 @{
     Layout = "_dashboard";
@@ -13,7 +13,8 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DoctorId" />
+            <input type="hidden" asp-for="@Model.DoctorId" />
+            <input type="hidden" asp-for="@Model.ImageUrl" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -50,6 +51,15 @@
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="isVisible" class="control-label">Show this Doctor on Home</label>
+                <input type="checkbox" id="yesCheckbox" onclick="handleClick(this)">Yes
+                <input type="checkbox" id="noCheckbox" onclick="handleClick(this)">No
+                <input asp-for="isVisible" hidden id="shippingOption" value="">
+                <span asp-validation-for="isVisible" class="text-danger"></span>
+
+
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -62,4 +72,16 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var checkboxi = document.getElementById("shippingOption");
+        function handleClick(checkbox) {
+            if (checkbox.id === "yesCheckbox") {
+                checkboxi.setAttribute("value", "True");
+
+            } else {
+                checkboxi.setAttribute("value", "False");
+
+            }
+        }
+    </script>
 }

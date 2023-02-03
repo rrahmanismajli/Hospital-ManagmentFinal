@@ -21,10 +21,12 @@ namespace Hospital_Managment.Models
         [Required(ErrorMessage = "Adress is required")]
         public string Address { get; set; }
         public int DepartmentId { get; set; }
+        [ValidateNever]
         public Department Department { get; set; }
        
         [ValidateNever]
         public string  ImageUrl { get; set; }
+        public bool? isVisible { get; set; }
         [ValidateNever]
         public List<Prescription> Prescription { get; set; }
         [ValidateNever]

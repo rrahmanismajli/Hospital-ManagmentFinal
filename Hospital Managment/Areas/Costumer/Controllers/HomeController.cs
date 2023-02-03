@@ -25,29 +25,79 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             _context = context;
             _emailSender=emailSender;
         }
-        public IActionResult Pharmacy(Pagination pagination,string searchTerm)
+        public IActionResult Pharmacy(Pagination pagination,string searchTerm,string status)
         {
-            
-            
-            if (!string.IsNullOrEmpty(searchTerm))
+
+            switch (status)
             {
-               
-                 var products = _context.PharmacyProducts.Where(p => p.productName.Contains(searchTerm));
-                pagination.CalculateTotalPages(products.Count());
-                pagination.CalculateStartItem();
-                var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
-                return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+                case "price_low_to_high":
+                    if (!string.IsNullOrEmpty(searchTerm))
+                    {
+
+                        var products = _context.PharmacyProducts.OrderBy(p=>p.price).Where(p => p.productName.Contains(searchTerm));
+                       
+                        pagination.CalculateTotalPages(products.Count());
+                        pagination.CalculateStartItem();
+                        var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                        return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+                    }
+                    else
+                    {
+                        var products = _context.PharmacyProducts.OrderBy(p=>p.price).ToList();
+                        pagination.CalculateTotalPages(products.Count());
+                        pagination.CalculateStartItem();
+                        var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                        return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+
+
+                    }
+                    break;
+                    case "price_high_to_low":
+                    if (!string.IsNullOrEmpty(searchTerm))
+                    {
+
+                        var products = _context.PharmacyProducts.OrderByDescending(p => p.price).Where(p => p.productName.Contains(searchTerm));
+
+                        pagination.CalculateTotalPages(products.Count());
+                        pagination.CalculateStartItem();
+                        var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                        return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+                    }
+                    else
+                    {
+                        var products = _context.PharmacyProducts.OrderByDescending(p => p.price).ToList();
+                        pagination.CalculateTotalPages(products.Count());
+                        pagination.CalculateStartItem();
+                        var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                        return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+
+
+                    }
+                    break;
+                    default:
+                    if (!string.IsNullOrEmpty(searchTerm))
+                    {
+
+                        var products = _context.PharmacyProducts.Where(p => p.productName.Contains(searchTerm));
+                        pagination.CalculateTotalPages(products.Count());
+                        pagination.CalculateStartItem();
+                        var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                        return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+                    }
+                    else
+                    {
+                        var products = _context.PharmacyProducts.ToList();
+                        pagination.CalculateTotalPages(products.Count());
+                        pagination.CalculateStartItem();
+                        var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
+                        return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
+
+
+                    }
+                    break;
+
             }
-            else
-            {
-                    var products = _context.PharmacyProducts.ToList();
-                    pagination.CalculateTotalPages(products.Count());
-                    pagination.CalculateStartItem();
-                    var pagedProducts = products.Skip(pagination.StartItem).Take(pagination.PageSize);
-                    return View(new Tuple<IEnumerable<PharmacyProduct>, Pagination>(pagedProducts, pagination));
-               
-              
-            }
+           
             
             
         }
@@ -98,8 +148,15 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
         }
         public IActionResult Index()
         {
-         
-            return View();
+            var doctors = _context.Doctors.ToList();
+          
+                ViewBag.AppointmentsDoc1 = _context.appointmentsList.Where(u => u.DoctorId == doctors.First().DoctorId).Count();
+          ViewBag.AppointmentsDoc2 = _context.appointmentsList.Where(u => u.DoctorId == doctors[1].DoctorId).Count();
+          
+          ViewBag.AppointmentsDoc3 = _context.appointmentsList.Where(u => u.DoctorId == doctors[2].DoctorId).Count();
+          
+            
+            return View(doctors);
         }
         [HttpPost]
         [ActionName("Index")]

@@ -1,61 +1,63 @@
-﻿@model Hospital_Managment.Models.Appointment
+﻿@model Hospital_Managment.Models.Appointments
 
 @{
-    Layout = "_dashboard";
     ViewData["Title"] = "Details";
+    Layout = "_dashboard";
 }
 
 <h1>Details</h1>
 
 <div>
-    <h4>Appointment</h4>
+    <h4>Appointments</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Patient.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateTimeOfAppointment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateTimeOfAppointment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.fullAdress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.fullAdress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReasonOfVisiting)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReasonOfVisiting)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Doctor)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Doctor.FirstName)
+            @Html.DisplayFor(model => model.Doctor.LastName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nurse)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nurse.NurseId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Receptionist)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Receptionist.ReceptionistId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReasonForVisit)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReasonForVisit)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Notes)
-        </dd>
+
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.AppointmentId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

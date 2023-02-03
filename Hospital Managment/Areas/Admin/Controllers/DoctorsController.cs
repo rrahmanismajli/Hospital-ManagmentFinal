@@ -136,35 +136,17 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DoctorId,FirstName,LastName,Specialty,PhoneNumber,Email,Address,DepartmentId")] Doctor doctor)
+        public async Task<IActionResult> Edit(Doctor obj)
         {
-            if (id != doctor.DoctorId)
-            {
-                return NotFound();
-            }
-
+          
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(doctor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DoctorExists(doctor.DoctorId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Doctors.Update(obj);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId", doctor.DepartmentId);
-            return View(doctor);
+            ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId", obj.DepartmentId);
+            return View(obj);
         }
 
         // GET: Doctors/Delete/5

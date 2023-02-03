@@ -22,10 +22,26 @@
                 <option value="1">Sort by Price: High to Low</option>
             </select>*@
             <form  asp-action="Pharmacy">
+                <li class="nav-item dropdown dropdown-menu-md-end" style="list-style:none">
+                    <a class="nav-link dropdown-toggle text-end" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        Sort By Price
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Pharmacy" asp-route-status="price_low_to_high">Price:Low to High</a>
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Pharmacy" asp-route-status="price_high_to_low">Price:High to Low</a>
+                        </div>
+                    </a>
+                </li>
+               @* <a style="text-decoration:none;" asp-controller="Home" asp-action="Pharmacy" asp-route-status="price_low_to_high">
+                    <li class="list-group-item">Price:Low to High</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Home" asp-action="Pharmacy" asp-route-status="price_high_to_low">
+                    <li class="list-group-item">Price:High to Low</li>
+                </a>*@
                 <input type="text" name="searchTerm" placeholder="Enter product name">
                 <input type="submit" value="Search by Name">
             </form>
-            
+          
+         
             @foreach(var item in Model.Item1){
                 @if (item.quantity>0 && item.BestBeforeDate>DateTime.Now)
                 {

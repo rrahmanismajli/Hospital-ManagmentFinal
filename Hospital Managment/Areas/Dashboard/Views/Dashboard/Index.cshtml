@@ -1,4 +1,6 @@
-﻿@{
+﻿
+
+@{
     Layout = "_dashboard";
    
 }
@@ -16,15 +18,15 @@
             </div>
             <h1>@ViewBag.TotalDepartments</h1>
         </div>
-        <a asp-controller="Doctors" asp-action="">
+        
             <div class="card">
                 <div class="card-inner">
-                    <h3 style="color:white;text-decoration:none;">DOCTORS</h3>
+                    <h3 >DOCTORS</h3>
                     <span style="color:white;" class="material-symbols-outlined">stethoscope</span>
                 </div>
                 <h1>@ViewBag.TotalDoctors</h1>
             </div>
-        </a>
+ 
 
         <div class="card">
             <div class="card-inner">
@@ -41,6 +43,46 @@
             </div>
             <h1>@ViewBag.TotalAppointments</h1>
         </div>
+        <canvas id="pie-chart"></canvas>
+
+
+
 
     </div>
 
+   @* @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/chart.min.js" integrity="sha512-qKyIokLnyh6oSnWsc5h21uwMAQtljqMZZT17CIMXuCQNIfFSFF4tJdMOaJHL9fQdJUANid6OB6DRR0zdHrbWAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    }
+      <script>
+        var ctx = document.getElementById('pie-chart').getContext('2d');
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Orders', 'Appointments'],
+                datasets: [{
+                    label: '# of items',
+                    data: [@ViewBag.OrderCount, @ViewBag.AppointmentCount],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+*@

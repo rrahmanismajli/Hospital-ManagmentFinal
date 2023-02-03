@@ -51,7 +51,7 @@
 
                 @{
                     var days = (item.DateTimeOfAppointment.Day - DateTime.Now.Day);
-                    <td>You have these Days Reamaing:<span class="text-danger">@days</span></td>
+                        <td>You have these Days Reamaing:<span class="text-danger">@days</span></td>
                 }
 
                 <td>
@@ -82,3 +82,10 @@
         }
     </tbody>
 </table>
+<canvas id="lineChart" width="400" height="400"></canvas>
+
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script src="~/js/chartPie.js"></script>
+}
