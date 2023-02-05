@@ -1,5 +1,10 @@
-﻿@model IEnumerable<Hospital_Managment.Models.Doctor>
-
+﻿@model Hospital_Managment.ViewModels.User_DoctorVm
+@using  System.Security.Claims;
+@inject ApplicationDbContext _context
+@using Hospital_Managment.Data
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Home Page";
@@ -17,7 +22,7 @@
                     <h1 class="mb-4" spellcheck="false">Finding Healthcare</h1>
                     <p class="lead pe-5 me-5">The time is now for it be okay to be great. People in this world shun people for being nice. </p>
                     <div class="buttons">
-                        <button type="button" class="btn mt-4 btn-dark">Get Started</button>
+                        <button type="button" class="btn mt-4 btn-dark"><a style="text-decoration:none;color:white;" asp-area="Costumer" asp-controller="Appointments" asp-action="Appointment" >Get Started</a></button>
                         <button type="button" class="btn mt-4 btn-dark btn-simple bg-transparent shadow-none text-dark">Read more</button>
                     </div>
                 </div>
@@ -194,9 +199,12 @@
             </div>
         </div>
         <div class="row">
-            
-              @foreach (var item in Model)
+            @{
+                var count = 0;
+            }
+              @foreach (var item in Model.DoctorsVM)
             {
+                ++count;
                 if(item.isVisible==true){
            
                 <div class="col-lg-4 col-md-6">
@@ -208,15 +216,15 @@
                     </a>
                     <div class="card-body blur justify-content-center text-center mt-n5 mx-4 mb-4 border-radius-md">
                         <h4 class="mb-0">@item.FirstName @item.LastName</h4>
-                        <p>@item.Address</p>
+                                <a href="mailto:@item.Email"><p>@item.Email</p></a>
                         <div class="row justify-content-center text-center">
-                            <div class="col-lg-4 col-4">
-                                @if (item.DoctorId==1)
+                            <div class="col-lg-6 col-6">
+                                @if (count==3)
                                     {
                                         <h5 class="text-info mb-0">@ViewBag.AppointmentsDoc1</h5>
                                         <small>Appointments</small>
                                     }else{
-                                        if (item.DoctorId==2)
+                                        if (count==4)
                                         {
                                             <h5 class="text-info mb-0">@ViewBag.AppointmentsDoc2</h5>
                                         <small>Appointments</small>
@@ -228,14 +236,14 @@
                                   
                                     
                             </div>
-                            <div class="col-lg-4 col-4">
-                                <h5 class="text-info mb-0">500+</h5>
-                                <small>Hours</small>
+                            <div class="col-lg-6 col-6">
+                                <h5 class="text-info mb-0">@item.Specialty</h5>
+                                <small>Speciality</small>
                             </div>
-                            <div class="col-lg-4 col-4">
-                                <h5 class="text-info mb-0">24/7</h5>
-                                <small>Support</small>
-                            </div>
+                           @* <div class="col-lg-4 col-4">
+                                <h5 class="text-info mb-0">@item.Email</h5>
+                                <small>Contact 24/7</small>
+                            </div>*@
                         </div>
                     </div>
                 </div>
@@ -249,89 +257,116 @@
         </div>
     </div>
 </section>
-<section class="position-relative overflow-hidden py-0">
-    <div class="row">
-        <div class="col-6 text-center mx-auto mt-5 mb-4">
-            <h2>Clients reviews</h2>
-            <p>
-                See what people from all around the world are saying about our hospital.
+<!--User Feedback-->
+@*<partial name="_UserFeedback">*@
+<section>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10 col-xl-8 text-center">
+            <h3 class="mb-4">Testimonials</h3>
+            <p class="mb-4 pb-2 mb-md-5 pb-md-0">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet
+                numquam iure provident voluptate esse quasi, veritatis totam voluptas nostrum
+                quisquam eum porro a pariatur veniam.
             </p>
         </div>
     </div>
-    <div class="bg-gradient-dark">
-        <div id="carouselExampleIndicators" class="carousel slide pt-7 pb-11" data-bs-ride="carousel">
-            <ol class="carousel-indicators pb-7">
-                <a href="javascript:;">
-                    <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-4.jpg" alt="..." class="avatar avatar-sm avatar-scale-up shadow border-radius-lg border-0 active" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" aria-current="true"> <span class="text-white mx-2">|</span>
-                </a>
 
-                <a href="javascript:;">
-                    <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-3.jpg" alt="..." class="avatar avatar-sm avatar-scale-up shadow border-radius-lg border-0" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"> <span class="text-white mx-2">|</span>
-                </a>
-
-                <a href="javascript:;">
-                    <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg" alt="..." class="avatar avatar-sm avatar-scale-up shadow border-radius-lg border-0" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2">
-                </a>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-7 mx-auto text-center">
-                                <img class="w-50 mb-4 avatar avatar-xl" src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-4.jpg" alt="">
-                                <p class="lead text-white">"We’re not always in the position that we want to be at. We’re constantly growing. We’re constantly making mistakes. We’re constantly trying to express ourselves and actualize our dreams." </p>
-                                <div class="author justify-content-center">
-                                    <div class="name ps-2">
-                                        <span class="text-white">John Down</span>
-                                        <div class="stats">
-                                            <small class="text-white opacity-6">Visionary, Google</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="row text-center d-flex align-items-stretch">
+        @for (int i = 0; i < 3; i++)
+        {
+            
+        
+        <div class="col-md-4 mb-5 mb-md-0 d-flex align-items-stretch">
+            <div class="card testimonial-card">
+                <div class="card-up" style="background-color: #9d789b;"></div>
+                <div class="avatar mx-auto bg-white">
+                        <img width="650px" height="80px" src="@Model.UsersFeedback[i].ApplicationUser.ImageUrl"
+                         class="rounded-circle " />
                 </div>
-                <div class="carousel-item">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-7 mx-auto text-center">
-                                <img class="w-50 mb-4 avatar avatar-xl" src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-3.jpg" alt="">
-                                <p class="lead text-white">"We’re not always in the position that we want to be at. We’re constantly growing. We’re constantly making mistakes. We’re constantly trying to express ourselves and actualize our dreams."</p>
-                                <div class="author justify-content-center">
-                                    <div class="name ps-2">
-                                        <span class="text-white">Marcell Glock</span>
-                                        <div class="stats">
-                                            <small class="text-white opacity-6">Chief Executive, Spotify</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-7 mx-auto text-center">
-                                <img class="w-50 mb-4 avatar avatar-xl" src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg" alt="">
-                                <p class="lead text-white">"We’re not always in the position that we want to be at. We’re constantly growing. We’re constantly making mistakes. We’re constantly trying to express ourselves and actualize our dreams." </p>
-                                <div class="author justify-content-center">
-                                    <div class="name ps-2">
-                                        <span class="text-white">Mathew Goat</span>
-                                        <div class="stats">
-                                            <small class="text-white opacity-6">Social Media Executive, Netflix</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-body">
+                        <h4 class="mb-4">@Model.UsersFeedback[i].ApplicationUser.Name</h4>
+                    <hr />
+                    <p class="dark-grey-text mt-4">
+                            <i class="fas fa-quote-left pe-2"></i>@Model.UsersFeedback[i].Message
+                    </p>
                 </div>
             </div>
         </div>
+ }
     </div>
+    <a asp-area="Costumer" asp-controller="Home" asp-action="FeedBacks">  <input class="btn btn-primary text-center" type="button" value="See All Reviews" /></a>
+    <form asp-action="Index">
+        <div class="card">
+            @{
+                var user = await UserManager.GetUserAsync(User);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            }
+            <div class="row">
+
+                <div class="col-2 text-end">
+
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <img src="@user.ImageUrl" width="70" class="rounded-circle mt-2">
+                    }
+                    else
+                    {
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" width="70" class="rounded-circle mt-2">
+                    }
+
+
+
+                </div>
+
+                <div class="col-10">
+
+                    <div class="comment-box ml-2">
+
+                        <h4>Add a feedback for your experience</h4>
+
+
+                        <div class="comment-area">
+
+
+                            <textarea asp-for="@Model._userFeed.Message" class="form-control" placeholder="Write your Review" rows="4">Write your FeedBack</textarea>
+
+                        </div>
+
+                        <div class="comment-btns mt-2">
+
+                            <div class="row">
+
+                                <div class="col-6">
+                                </div>
+
+                                <div class="col-6">
+
+                                    <div class="text-end">
+
+                                        <button class="btn btn-success send btn-sm">Submit <i class="fa fa-long-arrow-right ml-1"></i></button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </form>
 </section>
+
+
 <div class="py-5">
     <div class="container">
         <div class="row">

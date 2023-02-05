@@ -1,0 +1,31 @@
+﻿@model Hospital_Managment.Models.UserFeedback
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_dashboard.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>UserFeedback</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Message)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Message)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ApplicationUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ApplicationUser.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

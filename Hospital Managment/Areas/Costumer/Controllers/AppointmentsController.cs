@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
+
 namespace Hospital_Managment.Areas.Costumer.Controllers
 {
     [Area("Costumer")]
@@ -34,6 +35,16 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var applicationDbContext = _context.appointmentsList.Where(u => u.UserId == claim.Value).Include(u => u.ApplicationUser).Include(a => a.Doctor).ToList();
+            var appointmentsDate = _context.appointmentsList.Where(u => u.DateTimeOfAppointment < DateTime.Now).ToList();
+            foreach (var item in appointmentsDate)
+            {
+                if (item.DateTimeOfAppointment < DateTime.Now)
+                {
+                    _context.appointmentsList.Remove(item);
+                    _context.SaveChanges();
+                }
+
+            }
             return View( applicationDbContext);
         }
 
@@ -70,7 +81,8 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             appointments.PhoneNumber = thisUser.PhoneNumber;
             appointments.fullAdress = thisUser.StreetAdress + " " + thisUser.City + " " + thisUser.State + " " + thisUser.PostalCode;
             appointments.DateTimeOfAppointment = DateTime.Now;
-   
+
+
             var doctorList = _context.Doctors.Select(d => new SelectListItem
             {
                 Value = d.DoctorId.ToString(),
@@ -84,7 +96,7 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        
+
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Created([Bind("Id,FullName,DateTimeOfAppointment,email,PhoneNumber,fullAdress,ReasonOfVisiting,DoctorId")] Appointments appointments)
         {
@@ -92,22 +104,25 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             appointments.UserId = claim.Value;
             var doctorFromdb = _context.Doctors.FirstOrDefault(u => u.DoctorId == appointments.DoctorId);
-            
-             
-            var appointmentsFromDB = _context.appointmentsList.Where(u=>u.DateTimeOfAppointment==appointments.DateTimeOfAppointment).FirstOrDefault();
+
+
+            var appointmentsFromDB = _context.appointmentsList.Where(u => u.DateTimeOfAppointment == appointments.DateTimeOfAppointment).FirstOrDefault();
             if (appointmentsFromDB != null)
             {
                 ModelState.AddModelError("DateTimeOfAppointment", "This time slot is not available. Please choose another time.");
                 return RedirectToAction(nameof(Index));
             }
+            if (appointments.DateTimeOfAppointment >= DateTime.Now) { 
             _context.Add(appointments);
             await _context.SaveChangesAsync();
             var htmlMessage = $"<p>Thank you For your Appointment</p>";
             var htmlMessageDoctor = $"<p>You got a new Appointment on this date/time:{appointments.DateTimeOfAppointment}</p>";
-            await _emailSender.SendEmailAsync(appointments.email , $"New Message from {appointments.FullName}", htmlMessage);
+            await _emailSender.SendEmailAsync(appointments.email, $"New Message from {appointments.FullName}", htmlMessage);
             await _emailSender.SendEmailAsync(doctorFromdb.Email, $"New Appointment from {appointments.FullName}", htmlMessageDoctor);
+                return RedirectToAction(nameof(Index));
+            }
             ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "Address", appointments.DoctorId);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Appointment","Appointments");
         }
 
         // GET: Costumer/Appointments/Edit/5

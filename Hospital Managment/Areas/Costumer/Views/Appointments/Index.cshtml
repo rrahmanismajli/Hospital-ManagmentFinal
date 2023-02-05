@@ -43,16 +43,20 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
+            if (item.DateTimeOfAppointment >= DateTime.Now)
+            {
 
 
-                @{
-                    var days = (item.DateTimeOfAppointment.Day - DateTime.Now.Day);
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+
+
+                    @{
+                        var days = (item.DateTimeOfAppointment.Day - DateTime.Now.Day);
                         <td>You have these Days Reamaing:<span class="text-danger">@days</span></td>
-                }
+                    }
 
                 <td>
                     @Html.DisplayFor(modelItem => item.email)
@@ -79,6 +83,7 @@
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
+            }
         }
     </tbody>
 </table>

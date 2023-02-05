@@ -29,6 +29,15 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.appointmentsList.Include(a => a.Doctor).Include(a => a.ApplicationUser);
+            //foreach (var item in applicationDbContext)
+            //{
+            //    if (item.DateTimeOfAppointment < DateTime.Now)
+            //    {
+            //        _context.appointmentsList.Remove(item);
+            //        _context.SaveChanges();
+            //    }
+
+            //}
             return View(await applicationDbContext.ToListAsync());
         }
 

@@ -54,7 +54,7 @@
 
                         @{
                             var roles = await UserManager.GetRolesAsync(user);
-                            var role = roles.First();
+                            var role = roles.Last();
                             if (role == "Admin")
                             {
                             <a class="dropdown-item" asp-area="Dashboard" asp-controller="Dashboard" asp-action="Index" title="Manage">Dashboard</a>
