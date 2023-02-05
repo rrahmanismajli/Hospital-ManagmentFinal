@@ -173,7 +173,7 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
 
                     user_doc._userFeed=item;
                 }
-                user_doc._userFeed.Message = "Write your feedback...";
+                //user_doc._userFeed.Message = "Write your feedback...";
                 var doctors = _context.Doctors.ToList();
                 var doctorsVisible = doctors.Where(u => u.isVisible == true).ToList();
 

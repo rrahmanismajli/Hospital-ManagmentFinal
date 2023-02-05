@@ -28,9 +28,9 @@
    
 </head>
 <body>
-    <header>
+    <header style="position:fixed;top: 0;left: 0;right: 0;z-index: 10;padding: 0 20px;">
         <nav class="navbar navbar-expand-lg py-3 bg-white">
-            <div class="container">
+            <div class="container" >
                 <a class="navbar-brand w-8" href="#" data-config-id="brand">
                     <img src="~/images/icons/istockphoto-1344779917-170667a.jpg" width="50" height="50" alt="">
                 </a>
@@ -81,12 +81,21 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container" style="margin-top:10%">
+  
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+    <!-- Back to top button -->
+    <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top" style="position: fixed;
+bottom: 20px;
+right: 20px;
+display: none;">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
+    <!-- Explanation -->
     <footer class="footer py-5">
         <div class="container">
             <div class="row">
@@ -107,9 +116,7 @@
                     <a href="javascript:;" class="text-secondary me-xl-4 me-3">
                         <span class="text-lg fab fa-pinterest" aria-hidden="true"></span>
                     </a>
-                    <a href="javascript:;" class="text-secondary me-xl-4 me-3">
-                        <span class="text-lg fab fa-github" aria-hidden="true"></span>
-                    </a>
+                    
                 </div>
                 <div class="col-md-2 col-6 ms-lg-auto mb-md-0 mb-4">
                     <h6 class="text-sm">Company</h6>
@@ -231,7 +238,7 @@
             <div class="row">
                 <div class="col-8 mx-lg-auto text-lg-center">
                     <p class="text-sm text-secondary">
-                        Copyright © 2022 Soft &amp; Loopple by Creative Tim.
+                        Copyright © 2023 Clinic &amp; Clinic by Love.
                     </p>
 
 
@@ -251,7 +258,33 @@
     <script src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/js/plugins/countup.min.js"> </script>
     <script src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/js/plugins/flatpickr.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        //Get the button
+        let mybutton = document.getElementById("btn-back-to-top");
 
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (
+                document.body.scrollTop > 20 ||
+                document.documentElement.scrollTop > 20
+            ) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+        // When the user clicks on the button, scroll to the top of the document
+        mybutton.addEventListener("click", backToTop);
+
+        function backToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
