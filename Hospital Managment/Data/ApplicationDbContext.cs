@@ -37,7 +37,10 @@ namespace Hospital_Managment.Data
         public DbSet<OrderHeader>  OrderHeader{ get; set; }
         public DbSet<OrderDetails>  OrderDetail{ get; set; }
         public DbSet<Appointments> appointmentsList { get; set; }
+  
 
+        public DbSet<UserFeedback> userFeedbacks{ get; set; }
+  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

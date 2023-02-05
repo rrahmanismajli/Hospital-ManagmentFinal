@@ -10,9 +10,11 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Hospital_Managment.Data;
 using Hospital_Managment.Models;
+using Hospital_Managment.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 
@@ -22,19 +24,20 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
     {
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
-
+        private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
      
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IWebHostEnvironment hostEnvironment
+            IWebHostEnvironment hostEnvironment, ApplicationDbContext context
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _hostEnvironment = hostEnvironment;
+            _context = context;
           
               
         }
@@ -77,6 +80,13 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
             public string Adress { get; set; }
             public string FullName { get; set; }
             public string ImageUrl { get; set; }
+            public int orderNumber { get; set; }
+            public int appointmentCount { get; set; }
+            public int orderApproved { get; set; }
+            public int orderPending { get; set; }
+            public int orderCancelled { get; set; }
+            public int orderProcesed { get; set; }
+            public int orderShipped { get; set; }
 
         }
 
@@ -89,8 +99,13 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
             var email = user.Email;
             var fullAdress = user.StreetAdress + " " + user.City + " " + user.PostalCode;
             var fullName = user.Name;
-
-        
+            var orderList = _context.OrderHeader.Where(u => u.ApplicationUserId == thisUser.Id).Count();
+            var appointmentList = _context.appointmentsList.Where(u => u.UserId == thisUser.Id).Count();
+            var ordersbyStatusApproved = _context.OrderHeader.Where(u=>u.ApplicationUserId == thisUser.Id && u.OrderStatus==RolesStrings.StatusApproved).Count();
+            var ordersbyStatusPending = _context.OrderHeader.Where(u=>u.ApplicationUserId == thisUser.Id && u.OrderStatus==RolesStrings.StatusPending).Count();
+            var ordersbyStatusCancelled = _context.OrderHeader.Where(u=>u.ApplicationUserId == thisUser.Id && u.OrderStatus==RolesStrings.StatusCancelled).Count();
+            var ordersbyStatusProcess = _context.OrderHeader.Where(u=>u.ApplicationUserId == thisUser.Id && u.OrderStatus==RolesStrings.StatusInProcess).Count();
+            var ordersbyStatusShipped = _context.OrderHeader.Where(u=>u.ApplicationUserId == thisUser.Id && u.OrderStatus==RolesStrings.StatusShipped).Count();
 
 
             Username = userName;
@@ -103,6 +118,14 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
                 Adress = fullAdress,
                 FullName = fullName,
                 ImageUrl = user.ImageUrl,
+                orderNumber=orderList,
+                appointmentCount = appointmentList,
+                orderApproved=ordersbyStatusApproved,
+                orderCancelled=ordersbyStatusCancelled,
+                orderPending=ordersbyStatusPending,
+                orderProcesed =ordersbyStatusProcess,
+                orderShipped=ordersbyStatusShipped,
+               
            
             };
         }
@@ -110,8 +133,16 @@ namespace Hospital_Managment.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
+          
+            //{
+            //    Value = d.DoctorId.ToString(),
+            //    Text = d.FirstName + " " + d.LastName
+            //}).ToList();
+            //ViewData["DoctorId"] = doctorList;
             var user = await _userManager.GetUserAsync(User);
-      
+            var orderList = _context.OrderHeader.Where(u => u.ApplicationUserId == user.Id).Count();
+
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

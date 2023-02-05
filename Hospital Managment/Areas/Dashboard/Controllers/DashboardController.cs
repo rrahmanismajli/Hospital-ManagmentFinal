@@ -35,6 +35,9 @@ namespace Hospital_Managment.Areas.Dashboard.Controllers
             ViewBag.TotalPatients = user.Result.Count();
             ViewBag.TotalAppointments = _context.appointmentsList.Count();
             ViewBag.TotalDepartments = _context.Departments.Count();
+            ViewBag.OrderCount = _context.OrderHeader.Count();
+            ViewBag.AppointmentCount = _context.appointmentsList.Count();
+
             return View("~/Areas/Admin/Views/Dashboard/Index.cshtml");
 
         }

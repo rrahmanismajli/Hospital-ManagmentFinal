@@ -1,8 +1,8 @@
-﻿@model Hospital_Managment.Models.Appointment
+﻿@model Appointments
 
 @{
-    Layout = "_dashboard";
     ViewData["Title"] = "Edit";
+    Layout = "_dashboard";
 }
 
 <h1>Edit</h1>
@@ -13,42 +13,44 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="AppointmentId" />
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="UserId" />
             <div class="form-group">
-                <label asp-for="PatientId" class="control-label"></label>
-                <select asp-for="PatientId" class="form-control" asp-items="ViewBag.PatientId"></select>
-                <span asp-validation-for="PatientId" class="text-danger"></span>
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateTimeOfAppointment" class="control-label"></label>
+                <input asp-for="DateTimeOfAppointment" class="form-control" />
+                <span asp-validation-for="DateTimeOfAppointment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fullAdress" class="control-label"></label>
+                <input asp-for="fullAdress" class="form-control" />
+                <span asp-validation-for="fullAdress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReasonOfVisiting" class="control-label"></label>
+                <input asp-for="ReasonOfVisiting" class="form-control" />
+                <span asp-validation-for="ReasonOfVisiting" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DoctorId" class="control-label"></label>
                 <select asp-for="DoctorId" class="form-control" asp-items="ViewBag.DoctorId"></select>
                 <span asp-validation-for="DoctorId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
-                <span asp-validation-for="DateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NurseId" class="control-label"></label>
-                <select asp-for="NurseId" class="form-control" asp-items="ViewBag.NurseId"></select>
-                <span asp-validation-for="NurseId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReceptionistId" class="control-label"></label>
-                <select asp-for="ReceptionistId" class="form-control" asp-items="ViewBag.ReceptionistId"></select>
-                <span asp-validation-for="ReceptionistId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReasonForVisit" class="control-label"></label>
-                <input asp-for="ReasonForVisit" class="form-control" />
-                <span asp-validation-for="ReasonForVisit" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -61,5 +63,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

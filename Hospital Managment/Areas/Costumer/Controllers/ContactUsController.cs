@@ -48,7 +48,7 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
                     $"</br>Name:{contactUs.Name}</br>" +
                     $"Phone Number:{contactUs.PhoneNumber}</br>" +
                     $"Email:<a href='mailto:{contactUs.Email}'>{contactUs.Email}</a></blockquote>";
-                await _emailSender.SendEmailAsync("hospitalclinicmessages@hotmail.com", $"New Message from {contactUs.Name} with <b>SUBJECT</b>{contactUs.Subject}", htmlMessage);
+                await _emailSender.SendEmailAsync("infomessages7@gmail.com", $"New Message from {contactUs.Name} with <b>SUBJECT</b>{contactUs.Subject}", htmlMessage);
             }
             return RedirectToAction("Index");
         }

@@ -214,6 +214,9 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - Pharmacy", "<p>Hello</p>");
             List<ShoppingCart> shoppingCarts = _context.ShoppingCarts.Where(c => c.UserId == orderHeader.ApplicationUserId).ToList();
             _context.ShoppingCarts.RemoveRange(shoppingCarts);
+            var count = 0;
+            HttpContext.Session.SetInt32(RolesStrings.SessionCart,
+                   count);
             _context.SaveChanges();
             return View(id);
         }

@@ -9,6 +9,7 @@ using Hospital_Managment.Data;
 using Hospital_Managment.Models;
 using Hospital_Managment.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Hospital_Managment.Areas.Admin.Controllers
 {
@@ -17,39 +18,47 @@ namespace Hospital_Managment.Areas.Admin.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public AppointmentsController(ApplicationDbContext context)
+        private readonly IEmailSender _emailSender;
+        public AppointmentsController(ApplicationDbContext context,IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender; 
         }
 
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.appointmentsList.Include(a => a.Doctor).Include(a => a.ApplicationUser);
+            //foreach (var item in applicationDbContext)
+            //{
+            //    if (item.DateTimeOfAppointment < DateTime.Now)
+            //    {
+            //        _context.appointmentsList.Remove(item);
+            //        _context.SaveChanges();
+            //    }
+
+            //}
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Appointments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Appointments == null)
+            if (id == null || _context.appointmentsList == null)
             {
                 return NotFound();
             }
 
-            var appointment = await _context.Appointments
+            var appointments = await _context.appointmentsList
+                .Include(a => a.ApplicationUser)
                 .Include(a => a.Doctor)
-                .Include(a => a.Nurse)
-                .Include(a => a.Patient)
-                .Include(a => a.Receptionist)
-                .FirstOrDefaultAsync(m => m.AppointmentId == id);
-            if (appointment == null)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (appointments == null)
             {
                 return NotFound();
             }
 
-            return View(appointment);
+            return View(appointments);
         }
 
 
@@ -94,108 +103,88 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         }
 
         // GET: Appointments/Edit/5
+        // GET: Costumer/Appointments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Appointments == null)
+            if (id == null || _context.appointmentsList == null)
             {
                 return NotFound();
             }
 
-            var appointment = await _context.Appointments.FindAsync(id);
-            if (appointment == null)
+            var appointments = await _context.appointmentsList.FindAsync(id);
+            if (appointments == null)
             {
                 return NotFound();
             }
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "FirstName", appointment.DoctorId);
-            ViewData["NurseId"] = new SelectList(_context.Nurses, "NurseId", "NurseId", appointment.NurseId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id", appointment.PatientId);
-            ViewData["ReceptionistId"] = new SelectList(_context.Receptionists, "ReceptionistId", "ReceptionistId", appointment.ReceptionistId);
-            return View(appointment);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", appointments.UserId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "Address", appointments.DoctorId);
+            return View(appointments);
         }
 
-        // POST: Appointments/Edit/5
+        // POST: Costumer/Appointments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,PatientId,DoctorId,DateTime,NurseId,ReceptionistId,ReasonForVisit,Notes")] Appointment appointment)
+        public async Task<IActionResult> Edit( Appointments appointments)
         {
-            if (id != appointment.AppointmentId)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(appointment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppointmentExists(appointment.AppointmentId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.appointmentsList.Update(appointments);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "FirstName", appointment.DoctorId);
-            ViewData["NurseId"] = new SelectList(_context.Nurses, "NurseId", "NurseId", appointment.NurseId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id", appointment.PatientId);
-            ViewData["ReceptionistId"] = new SelectList(_context.Receptionists, "ReceptionistId", "ReceptionistId", appointment.ReceptionistId);
-            return View(appointment);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", appointments.UserId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "Address", appointments.DoctorId);
+            return View(appointments);
         }
 
-        // GET: Appointments/Delete/5
+        // GET: Costumer/Appointments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Appointments == null)
+            if (id == null || _context.appointmentsList == null)
             {
                 return NotFound();
             }
 
-            var appointment = await _context.Appointments
+            var appointments = await _context.appointmentsList
+                .Include(a => a.ApplicationUser)
                 .Include(a => a.Doctor)
-                .Include(a => a.Nurse)
-                .Include(a => a.Patient)
-                .Include(a => a.Receptionist)
-                .FirstOrDefaultAsync(m => m.AppointmentId == id);
-            if (appointment == null)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (appointments == null)
             {
                 return NotFound();
             }
 
-            return View(appointment);
+            return View(appointments);
         }
 
-        // POST: Appointments/Delete/5
+        // POST: Costumer/Appointments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Appointments == null)
+            if (_context.appointmentsList == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Appointments'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.appointmentsList'  is null.");
             }
-            var appointment = await _context.Appointments.FindAsync(id);
-            if (appointment != null)
+            var appointments = await _context.appointmentsList.FindAsync(id);
+            if (appointments != null)
             {
-                _context.Appointments.Remove(appointment);
+                var htmlMessageDoctor = $"<p>{appointments.FullName} Cancel Appointment on this date/time:{appointments.DateTimeOfAppointment}</p>";
+                var doctorFromdb = _context.Doctors.FirstOrDefault(u => u.DoctorId == appointments.DoctorId);
+                await _emailSender.SendEmailAsync(doctorFromdb.Email, $"Canceled Appointment from {appointments.FullName}", htmlMessageDoctor);
+                _context.appointmentsList.Remove(appointments);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AppointmentExists(int id)
+        private bool AppointmentsExists(int id)
         {
-            return _context.Appointments.Any(e => e.AppointmentId == id);
+            return _context.appointmentsList.Any(e => e.Id == id);
         }
     }
 }

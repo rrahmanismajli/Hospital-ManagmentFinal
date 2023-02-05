@@ -10,6 +10,7 @@ namespace Hospital_Managment.Models
         public int Id { get; set; }
 
         public string FullName { get; set; }
+
         public DateTime DateTimeOfAppointment { get; set; }
         public string email { get; set; }
         [Required(ErrorMessage = "Phone Number is required")]

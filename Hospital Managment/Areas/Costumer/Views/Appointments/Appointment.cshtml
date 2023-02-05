@@ -20,8 +20,8 @@
             </div>
             <div class="form-group">
                 <label  class="control-label">Date of Appointment</label>
-                <input asp-for="DateTimeOfAppointment" class="form-control" />
-              
+                <input id="dateTime" asp-for="DateTimeOfAppointment" class="form-control" />
+             
             </div>
             <div class="form-group">
                 <label  class="control-label">Your Email </label>
@@ -50,9 +50,11 @@
             </div>
            
             <div class="form-group">
-                <input type="submit" value="Book Now!" class="btn btn-primary" />
+                <input type="submit" onclick="return ValidateInput()" value="Book Now!" class="btn btn-primary" />
             </div>
         </form>
+      
+
     </div>
 </div>
 
@@ -60,6 +62,34 @@
     <a asp-action="Index">Back to Appointment List</a>
 </div>
 
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function ValidateInput() {
+            var now = new Date();
+            var formattedDate = now.getFullYear() + '-' +
+                (now.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                now.getDate().toString().padStart(2, '0') + 'T' +
+                now.getHours().toString().padStart(2, '0') + ':' +
+                now.getMinutes().toString().padStart(2, '0') + ':' +
+                now.getSeconds().toString().padStart(2, '0') + '.' +
+                now.getMilliseconds().toString().padStart(3, '0');
+            
+            console.log(document.getElementById("dateTime").value);
+            console.log(formattedDate);
+            console.log(document.getElementById("dateTime").value === formattedDate)
+            if (document.getElementById("dateTime").value < formattedDate) {
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Date Time wrong!',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                })
+            }
+        }
+    </script>
+
 }

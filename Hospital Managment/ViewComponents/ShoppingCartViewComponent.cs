@@ -16,7 +16,8 @@ namespace Hospital_Managment.ViewComponents
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            if(claim!= null)
+           
+            if (claim!= null)
             {
                 if (HttpContext.Session.GetInt32(RolesStrings.SessionCart) != null)
                 {
@@ -24,7 +25,7 @@ namespace Hospital_Managment.ViewComponents
                 }
                 else
                 {
-                    HttpContext.Session.SetInt32(RolesStrings.SessionCart, _context.ShoppingCarts.Where(u => u.UserId == claim.Value).ToList().Count());
+                    HttpContext.Session.SetInt32(RolesStrings.SessionCart, _context.ShoppingCarts.Where(u => u.UserId == claim.Value).ToList().Count);
                     return View(HttpContext.Session.GetInt32(RolesStrings.SessionCart));
 
                 }
