@@ -234,25 +234,23 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
         public IActionResult GetAll(string status)
         {
            
-            IEnumerable<Appointments> appointments;
-        
-                var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var Doctors = _context.appointmentsList.Include(u => u.Doctor).ToList();
-            appointments = _context.appointmentsList.Where(u => u.UserId == claim.Value).Include(u => u.ApplicationUser).ToList();
-            
+            var appointments = _context.appointmentsList.Where(u => u.UserId == claim.Value).Include(u => u.Doctor).ToList();
+
 
 
             switch (status)
             {
                 case "active":
-                    appointments = appointments.Where(u => u.DateTimeOfAppointment == DateTime.Now);
+                    appointments = _context.appointmentsList.Where(u => u.UserId == claim.Value && u.DateTimeOfAppointment == DateTime.Now).Include(u => u.Doctor).ToList();
                     break;
                 case "inprogress":
-                    appointments = appointments.Where(u => u.DateTimeOfAppointment > DateTime.Now);
+                    appointments = _context.appointmentsList.Where(u => u.UserId == claim.Value && u.DateTimeOfAppointment > DateTime.Now).Include(u => u.Doctor).ToList();
                     break;
                 case "expired":
-                    appointments = appointments.Where(u => u.DateTimeOfAppointment <DateTime.Now);
+                    appointments = _context.appointmentsList.Where(u => u.UserId == claim.Value && u.DateTimeOfAppointment < DateTime.Now).Include(u => u.Doctor).ToList();
                     break;
                 default:
 

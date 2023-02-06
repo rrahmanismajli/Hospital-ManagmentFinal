@@ -9,20 +9,20 @@ $(document).ready(function () {
             loadDataTable("inprogress");
         } else {
 
-if (url.includes("expired")) {
+        if (url.includes("expired")) {
                 loadDataTable("expired");
             }  else {
                     loadDataTable("all");
                 }
             }
-        }
+        
     }
 
 });
 function loadDataTable(status) {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "/Appointments/GetAll?status=" + status
+            "url": "Appointments/GetAll?status=" + status
         },
         "columns": [
             {
@@ -47,7 +47,7 @@ function loadDataTable(status) {
                 "data": "reasonOfVisiting", "width": "15%"
             },
             {
-                "data": "doctor.firstname", "width": "15%"
+                "data": "doctor.firstName", "width": "15%"
             },
             {
                 "data": "id",
