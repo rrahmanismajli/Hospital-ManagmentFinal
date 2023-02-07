@@ -1,81 +1,79 @@
-﻿@model IEnumerable<Hospital_Managment.Models.Appointments>
+﻿@{
 
-@{
-    ViewData["Title"] = "Index";
     Layout = "_dashboard";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Manage all your Appointments</h1>
+@{
+    var status = Context.Request.Query["status"];
+    var active = "text-primary";
+    var inprogress = "text-primary";
+    var expired = "text-primary";
+    var all = "text-primary";
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateTimeOfAppointment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.fullAdress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReasonOfVisiting)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Doctor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApplicationUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    switch (status)
+    {
+        case "active":
+            active = "active text-danger";
+            break;
+        case "inprogress":
+            inprogress = "active text-danger";
+            break;
+        case "expired":
+            expired = "active text-danger";
+            break;
+        default:
+            all = "active text-wthie";
+            break;
+    }
+}
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Appointments</h2>
+        </div>
+        <div class="p-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="text-decoration:none;" asp-controller="Appointments" asp-action="Index" asp-route-status="active">
+                <li class="list-group-item @active">Active</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Appointments" asp-action="Index" asp-route-status="inprogress">
+                <li class="list-group-item @inprogress">InProgress</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Appointments" asp-action="Index" asp-route-status="expired">
+                <li class="list-group-item @expired">Expired</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Appointments" asp-action="Index" asp-route-status="all">
+                <li class="list-group-item @all">All</li>
+                </a>
+
+            </ul>
+
+        </div>
+    </div>
+    <br /><br />
+    <table id="tblData" class=" table-bordered table-white" style="width:100%">
+        <thead class="thead-light">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Phone Number</th>
+                <th>Email </th>
+                <th>Adress</th>
+                <th>ReasonForVisiting</th>
+                <th> Doctor</th>
+                <th>Details</th>
 
 
-                @{
-                    var days = (item.DateTimeOfAppointment.Day - DateTime.Now.Day);
-                    <td>You have these Days Reamaing:<span class="text-danger">@days</span></td>
-                }
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fullAdress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReasonOfVisiting)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Doctor.FirstName)
-                    @Html.DisplayFor(modelItem => item.Doctor.LastName)
-                </td>
-                @*  <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
-            </td>*@
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+    </table>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/appointments.js"></script>
+}

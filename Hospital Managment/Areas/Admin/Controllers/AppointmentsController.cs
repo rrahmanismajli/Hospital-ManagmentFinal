@@ -10,6 +10,7 @@ using Hospital_Managment.Models;
 using Hospital_Managment.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Security.Claims;
 
 namespace Hospital_Managment.Areas.Admin.Controllers
 {
@@ -186,5 +187,38 @@ namespace Hospital_Managment.Areas.Admin.Controllers
         {
             return _context.appointmentsList.Any(e => e.Id == id);
         }
+
+        #region API CAllS
+        [HttpGet]
+        public IActionResult GetAll(string status)
+        {
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var appointments = _context.appointmentsList.Include(u => u.Doctor).ToList();
+        
+
+
+
+            switch (status)
+            {
+                case "active":
+                    appointments = _context.appointmentsList.Where(u=> u.DateTimeOfAppointment == DateTime.Now).Include(u => u.Doctor).ToList();
+                    break;
+                case "inprogress":
+                    appointments = _context.appointmentsList.Where(u => u.DateTimeOfAppointment > DateTime.Now).Include(u => u.Doctor).ToList();
+                    break;
+                case "expired":
+                    appointments = _context.appointmentsList.Where(u =>u.DateTimeOfAppointment < DateTime.Now).Include(u => u.Doctor).ToList();
+                    break;
+                default:
+
+                    break;
+            }
+            return Json(new { data = appointments });
+
+        }
+
+        #endregion
     }
 }
