@@ -202,7 +202,7 @@
             @{
                 var count = 0;
             }
-            @if (Model.DoctorsVM.Count<=0)
+            @if (Model.DoctorsVM.Count>0)
             {
                 
            
@@ -388,7 +388,7 @@
                 <p class="mb-0">The latest news, articles and resources sent to your inbox weekely.</p>
             </div>
             <div class="col-lg-5 ms-auto text-end mt-4 mt-lg-0">
-                <form asp-action="Index">
+                <form asp-action="Sub">
                 <div class="row">
                     <div class="col-lg-8 col-md-4 col-7">
                         <div class="form-group mb-0">

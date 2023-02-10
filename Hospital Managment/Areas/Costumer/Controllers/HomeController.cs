@@ -224,6 +224,14 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             uf.UserId = claim.Value;
             _context.userFeedbacks.Add(uf);
             _context.SaveChanges();
+           
+            
+            return RedirectToAction("Index","Home");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubAsync()
+        {
             var emailer = Request.Form["Emailsub"];
             if (string.IsNullOrEmpty(emailer))
             {
@@ -233,10 +241,8 @@ namespace Hospital_Managment.Areas.Costumer.Controllers
             {
                 await _emailSender.SendEmailAsync(emailer, $"Thanks for Subscribing", "<p>You have been subscribed</p>");
             }
-            
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
-
         public IActionResult Privacy()
         {
             return View();
